@@ -11,8 +11,6 @@ export async function GET() {
     if (sessionToken) {
       const { payload } = await verifyJwtToken(sessionToken);
 
-      // update user session
-
       await db.userSession.update({
         where: { sessionId: payload.sub as string },
         data: {

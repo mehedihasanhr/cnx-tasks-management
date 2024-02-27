@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,6 +26,8 @@ const formSchema = z.object({
 
 // Component Render
 function LoginForm() {
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const route = useRouter();
   const { toast } = useToast();
   // Form Instance
@@ -38,29 +40,35 @@ function LoginForm() {
   });
 
   const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     try {
-      fetch(`${config.API}/auth/login`, {
+      const response = await fetch(`${config.API}/auth/login`, {
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        method: "POST",
         body: JSON.stringify(formData),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          toast({
-            variant: "destructive",
-            title: res.message,
-          });
-          route.push("/dashboard");
-        });
+      });
+
+      const data = await response.json();
+
+      toast({
+        variant: "destructive",
+        title: data.message,
+      });
+
+      setIsLoading(false);
+
+      route.push("/dashboard");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast({
         variant: "destructive",
         title: error.message,
       });
+
+      setIsLoading(false);
     }
   };
 
@@ -98,7 +106,9 @@ function LoginForm() {
           )}
         />
 
-        <Button>Login</Button>
+        <Button disabled={isLoading}>
+          {isLoading ? "Loading..." : "Login"}
+        </Button>
 
         <p className="text-sm text-base-300">
           {"Haven't an account? "}

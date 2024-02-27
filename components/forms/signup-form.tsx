@@ -36,6 +36,8 @@ const formSchema = z
 
 // Component Render
 function SignUpForm() {
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const route = useRouter();
   const { toast } = useToast();
   // Form Instance
@@ -50,30 +52,36 @@ function SignUpForm() {
   });
 
   // on submit function
-  const onSubmit = (formData: z.infer<typeof formSchema>) => {
+  const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+
     try {
-      fetch(`${config.API}/auth/signup`, {
+      const response = await fetch(`${config.API}/auth/signup`, {
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        method: "POST",
         body: JSON.stringify(formData),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          toast({
-            variant: "destructive",
-            title: res.message,
-          });
-          route.push("/dashboard");
-        });
+      });
+
+      const data = await response.json();
+
+      toast({
+        variant: "destructive",
+        title: data.message,
+      });
+
+      setIsLoading(false);
+      route.push("/dashboard");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast({
         variant: "destructive",
         title: error.message,
       });
+
+      setIsLoading(false);
     }
   };
 
@@ -148,7 +156,9 @@ function SignUpForm() {
           )}
         />
 
-        <Button>Sign Up</Button>
+        <Button disabled={isLoading}>
+          {isLoading ? "Loading..." : "Sign Up"}
+        </Button>
 
         <p className="text-sm text-base-300">
           Already have an account?{" "}

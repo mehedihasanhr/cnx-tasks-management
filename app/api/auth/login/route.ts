@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user) {
-      return Response.json({ message: "User not exist" }, { status: 200 });
+      return Response.json({ message: "User not exist" }, { status: 404 });
     }
 
     const { password: hashPassword, ...userData } = user;
@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
     // create session
     const ip = request.ip || request.headers.get("x-forwarded-for");
 
+    // create session
     const session = await createSession({
       userId: user.id,
       ip: ip!,

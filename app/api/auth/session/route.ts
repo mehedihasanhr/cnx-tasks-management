@@ -1,13 +1,15 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { verifyJwtToken } from "@/lib/session";
 import { NextRequest } from "next/server";
-import { createCookie } from "@/lib/session";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
+
   try {
-    const { sessionId } = body;
+    const { payload } = await verifyJwtToken(body.token);
+    const sessionId = payload.sub as string;
     // check user is logged in or not
     const session = await db.userSession.findFirst({
       where: {
@@ -19,8 +21,6 @@ export async function POST(req: NextRequest) {
     if (!session) {
       return Response.json({ message: "Unauthorized" }, { status: 401 });
     }
-
-    createCookie(sessionId);
 
     // find user
     const user = db.user.findUnique({
@@ -35,9 +35,9 @@ export async function POST(req: NextRequest) {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return Response.json(
-      { message: "Something went wrong!", error: error.message },
-      { status: 500 }
-    );
+    if (error.name === "JWTExpired") {
+      return Response.json({ message: "Session Expired!" }, { status: 401 });
+    }
+    return Response.json({ message: "Session Expired!" }, { status: 500 });
   }
 }

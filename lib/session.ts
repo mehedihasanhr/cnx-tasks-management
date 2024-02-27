@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import * as jose from "jose";
 import { db } from "@/lib/db";
 import { cookies } from "next/headers";
 import { config } from "@/config";
-import * as jose from "jose";
 
 const secretSessionKey = new TextEncoder().encode(
   config.JWT_SESSION_SECRET_KEY
@@ -29,7 +30,7 @@ export async function createCookie(sessionId: string) {
     .setIssuedAt()
     .setIssuer("urn:example:issuer")
     .setAudience("urn:example:audience")
-    .setExpirationTime("2h")
+    .setExpirationTime("1h")
     .setSubject(sessionId)
     .sign(secretSessionKey);
 
@@ -58,18 +59,15 @@ export async function verifyJwtToken(token: string) {
 // verify user session
 export async function verifyUserSession(token: string) {
   try {
-    const { payload } = await verifyJwtToken(token);
-
     const res = await fetch(`${config.API}/auth/session`, {
       method: "POST",
-      body: JSON.stringify({ sessionId: payload.sessionId }),
-    }).then((res) => res.json());
+      body: JSON.stringify({ token }),
+    });
 
-    if (res.status === 200) {
-      return true;
-    }
-    return false;
-  } catch (error) {
-    return false;
+    const data = await res.json();
+
+    return { data, status: res.status };
+  } catch (error: any) {
+    return { data: null, status: error.status };
   }
 }

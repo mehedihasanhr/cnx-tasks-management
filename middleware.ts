@@ -3,18 +3,21 @@ import type { NextRequest } from "next/server";
 import { verifyUserSession } from "./lib/session";
 
 // eslint-disable-next-line consistent-return
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const sessionToken = request.cookies.get("sessionToken")?.value;
   const { pathname } = request.nextUrl;
 
   // verified user
-  const verified = sessionToken ? verifyUserSession(sessionToken) : false;
+  const verified = sessionToken ? await verifyUserSession(sessionToken) : false;
 
   if (["/login", "/sign-up"].includes(pathname)) {
-    if (verified) {
+    if (typeof verified !== "boolean" && verified.status === 200) {
       return NextResponse.redirect(new URL(`/dashboard`, request.url));
     }
-  } else if (!verified) {
+  } else if (
+    !verified ||
+    (typeof verified !== "boolean" && verified.status !== 200)
+  ) {
     return NextResponse.redirect(new URL("/login", request.url));
   } else
     return NextResponse.rewrite(new URL(`/private${pathname}`, request.url));

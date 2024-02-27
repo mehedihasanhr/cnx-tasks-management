@@ -8,6 +8,7 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+// user session 
 model UserSession {
   id         Int       @id @default(autoincrement())
   sessionId  String    @unique @default(uuid())
