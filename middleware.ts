@@ -1,0 +1,25 @@
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { verifyUserSession } from "./lib/session";
+
+// eslint-disable-next-line consistent-return
+export function middleware(request: NextRequest) {
+  const sessionToken = request.cookies.get("sessionToken")?.value;
+  const { pathname } = request.nextUrl;
+
+  // verified user
+  const verified = sessionToken ? verifyUserSession(sessionToken) : false;
+
+  if (["/login", "/sign-up"].includes(pathname)) {
+    if (verified) {
+      return NextResponse.redirect(new URL(`/dashboard`, request.url));
+    }
+  } else if (!verified) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  } else
+    return NextResponse.rewrite(new URL(`/private${pathname}`, request.url));
+}
+
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+};
