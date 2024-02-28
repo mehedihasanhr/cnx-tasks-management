@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 // font
 import { Inter as FontSans } from "next/font/google";
 // React Grid Layout CSS
-// import "@/node_modules/react-grid-layout/css/styles.css";
-// import "@/node_modules/react-resizable/css/styles.css";
+import "@/node_modules/react-grid-layout/css/styles.css";
+import "@/node_modules/react-resizable/css/styles.css";
 
 // Global css
 import "./globals.css";
