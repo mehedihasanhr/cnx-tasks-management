@@ -21,7 +21,7 @@ import { columns as defaultColumns } from "./columns";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function TaskDataTable({ tasks }: any) {
-  const [columns, setColumns] = React.useState<typeof defaultColumns>(() => [
+  const [columns] = React.useState<typeof defaultColumns>(() => [
     ...defaultColumns,
   ]);
 
