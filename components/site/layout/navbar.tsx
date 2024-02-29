@@ -1,15 +1,26 @@
-import React from "react";
 import Image from "next/image";
 import {
-  IconChecklist,
   IconFolder,
   IconHome,
   IconMessage,
+  IconReport,
+  IconSubtask,
   IconUsersGroup,
+  IconTargetArrow,
+  IconDotsVertical,
+  IconLogout,
 } from "@tabler/icons-react";
 import NavItem from "./nav-item";
 import { Badge } from "../../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../../ui/dropdown-menu";
+import { Button } from "../../ui/button";
+import Logout from "../logout";
 
 function Navbar() {
   return (
@@ -19,13 +30,13 @@ function Navbar() {
       </div>
 
       <div className="mt-8 flex-1">
-        <nav className="flex flex-col gap-2 px-2.5">
+        <nav className="flex flex-col gap-1.5 px-2.5">
           <NavItem href="/dashboard">
             <IconHome />
             Dashboard
           </NavItem>
           <NavItem href="/tasks">
-            <IconChecklist />
+            <IconSubtask />
             My Tasks
           </NavItem>
           <NavItem href="#inbox">
@@ -37,13 +48,13 @@ function Navbar() {
 
         <div className="mt-8">
           <h6 className="mb-4 px-3 text-base-300">Insights</h6>
-          <nav className="flex flex-col gap-2 px-2.5">
+          <nav className="flex flex-col gap-1.5 px-2.5">
             <NavItem href="#goals">
-              <IconHome />
+              <IconTargetArrow />
               Goals
             </NavItem>
             <NavItem href="#projects">
-              <IconFolder />
+              <IconReport />
               Reporting
             </NavItem>
           </nav>
@@ -52,9 +63,9 @@ function Navbar() {
         {/* project list */}
         <div className="mt-8">
           <h6 className="mb-4 px-3 text-base-300">Projects</h6>
-          <nav className="flex flex-col gap-2 px-2.5">
+          <nav className="flex flex-col gap-1.5 px-2.5">
             <NavItem href="#goals">
-              <IconHome />
+              <IconFolder />
               <span>CNX Tasks Management</span>
             </NavItem>
           </nav>
@@ -63,7 +74,7 @@ function Navbar() {
         {/* Teams */}
         <div className="mt-10">
           <h6 className="mb-4 px-3 text-base-300">Teams</h6>
-          <nav className="flex flex-col gap-2 px-2.5">
+          <nav className="flex flex-col gap-1.5 px-2.5">
             <NavItem href="#my-workspace">
               <IconUsersGroup />
               My workspace
@@ -79,10 +90,28 @@ function Navbar() {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <div className="px-2.5">
-          <h3 className="">MD Mehedi Hasan</h3>
+          <h3 className="text-sm">MD Mehedi Hasan</h3>
           <span className="text-xs leading-3 text-red-500">
             Frontend Developer
           </span>
+        </div>
+
+        <div className="ml-auto">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="icon" variant="ghost" className="h-8 w-8">
+                <IconDotsVertical size={16} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>
+                <Logout>
+                  <IconLogout size={18} className="mr-2" />
+                  Logout
+                </Logout>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>

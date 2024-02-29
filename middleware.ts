@@ -19,6 +19,8 @@ export async function middleware(request: NextRequest) {
     (typeof verified !== "boolean" && verified.status !== 200)
   ) {
     return NextResponse.redirect(new URL("/login", request.url));
+  } else if (pathname === "/tasks") {
+    return NextResponse.redirect(new URL(`${pathname}/list`, request.url));
   } else
     return NextResponse.rewrite(new URL(`/private${pathname}`, request.url));
 }

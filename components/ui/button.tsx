@@ -15,7 +15,7 @@ const buttonVariants = cva(
         outline:
           "border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50",
         secondary:
-          "bg-base-300/10 text-base-300 hover:bg-base-300/20 hover:text-base-0 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+          "bg-base-300/10 text-base-200 hover:bg-base-300/20 hover:text-base-0 dark:hover:bg-slate-800 dark:hover:text-slate-50",
         ghost:
           "hover:bg-base-300/10 hover:text-base-0 dark:hover:bg-slate-800 dark:hover:text-slate-50",
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
@@ -25,6 +25,7 @@ const buttonVariants = cva(
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
+        "icon-sm": "h-9 w-9",
       },
     },
     defaultVariants: {

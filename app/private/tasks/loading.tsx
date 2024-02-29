@@ -1,8 +1,8 @@
 import React from "react";
 
-function PrivateLayoutLoader() {
+function TaskPageLoader() {
   return (
-    <div>
+    <div className="flex gap-1">
       <svg
         className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
         xmlns="http://www.w3.org/2000/svg"
@@ -28,4 +28,4 @@ function PrivateLayoutLoader() {
   );
 }
 
-export default PrivateLayoutLoader;
+export default TaskPageLoader;

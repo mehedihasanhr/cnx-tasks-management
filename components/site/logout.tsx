@@ -2,11 +2,10 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { config } from "@/config";
 import { useToast } from "@/components/ui/use-toast";
 
-function Logout() {
+function Logout({ children }: { children: React.ReactNode }) {
   const route = useRouter();
   const { toast } = useToast();
   const handleLogout = async () => {
@@ -26,7 +25,11 @@ function Logout() {
       .finally(() => route.push("/login"));
   };
 
-  return <Button onClick={handleLogout}> Logout </Button>;
+  return (
+    <div aria-hidden onClick={handleLogout} className="flex items-center">
+      {children}
+    </div>
+  );
 }
 
 export default Logout;
