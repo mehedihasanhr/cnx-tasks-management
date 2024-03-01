@@ -1,5 +1,4 @@
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -37,7 +36,7 @@ export async function GET() {
         },
       },
     });
-    return NextResponse.json(
+    return Response.json(
       {
         tasks,
         message: "Tasks successfully fetch ",
@@ -45,7 +44,7 @@ export async function GET() {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json(
+    return Response.json(
       {
         message: "Something went wrong",
         error,
