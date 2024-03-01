@@ -4,7 +4,7 @@ import TaskDataTable from "@/components/tables/tasks/data-table";
 import { config } from "@/config";
 
 const fetchTasks = async () => {
-  const tasks = fetch(`${config.API}/tasks`, { cache: "no-cache" }).then(
+  const tasks = await fetch(`${config.API}/tasks`, { cache: "no-cache" }).then(
     (res) => res.json()
   );
   return tasks;
