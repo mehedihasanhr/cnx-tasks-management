@@ -15,7 +15,6 @@ async function TaskListView() {
 
   return (
     <>
-      {/* Render your component */}
       <AddTaskButtonWithDropdown />
       <TaskDataTable tasks={tasks} />
     </>
