@@ -36,6 +36,17 @@ export async function GET() {
         },
       },
     });
+
+    if (!tasks) {
+      return Response.json(
+        {
+          tasks: [],
+          message: "Tasks successfully fetch ",
+        },
+        { status: 200 }
+      );
+    }
+
     return Response.json(
       {
         tasks,
