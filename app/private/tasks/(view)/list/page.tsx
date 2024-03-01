@@ -4,16 +4,11 @@ import TaskDataTable from "@/components/tables/tasks/data-table";
 import { config } from "@/config";
 
 const fetchTasks = async () => {
-  try {
-    const tasks = await fetch(`${config.API}/tasks`, {
-      cache: "no-cache",
-    }).then((res) => res.json());
+  const tasks = await fetch(`${config.API}/tasks`, {
+    cache: "no-cache",
+  }).then((res) => res.json());
 
-    return tasks;
-  } catch (error) {
-    console.log({ error });
-    throw Error("error");
-  }
+  return tasks;
 };
 
 async function TaskListView() {

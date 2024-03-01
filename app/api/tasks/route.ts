@@ -5,61 +5,32 @@ export async function GET() {
     const tasks = await db.task.findMany({
       include: {
         members: {
-          select: {
-            id: true,
-            userId: true,
-            name: true,
-            avatar: true,
-          },
+          select: { id: true, userId: true, name: true, avatar: true },
         },
         assignee: {
-          select: {
-            id: true,
-            userId: true,
-            name: true,
-            avatar: true,
-          },
+          select: { id: true, userId: true, name: true, avatar: true },
         },
         taskCreator: {
-          select: {
-            id: true,
-            userId: true,
-            name: true,
-            avatar: true,
-          },
+          select: { id: true, userId: true, name: true, avatar: true },
         },
-        project: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
+        project: { select: { id: true, title: true } },
       },
     });
 
     if (!tasks) {
       return Response.json(
-        {
-          tasks: [],
-          message: "Tasks successfully fetch ",
-        },
+        { tasks: [], message: "Tasks successfully fetch" },
         { status: 200 }
       );
     }
 
     return Response.json(
-      {
-        tasks,
-        message: "Tasks successfully fetch ",
-      },
+      { tasks, message: "Tasks successfully fetch" },
       { status: 200 }
     );
   } catch (error) {
     return Response.json(
-      {
-        message: "Something went wrong",
-        error,
-      },
+      { message: "Something went wrong", error },
       { status: 500 }
     );
   }
