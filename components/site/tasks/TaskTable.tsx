@@ -1,6 +1,6 @@
 "use client";
 
-import { Task } from "@prisma/client";
+import { Task } from "@/types";
 import React from "react";
 import AddTaskButtonWithDropdown from "@/components/button/add-task-button-with-dropdown";
 import TaskDataTable from "./table/data-table";
