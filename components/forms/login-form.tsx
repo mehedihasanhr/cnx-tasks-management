@@ -15,8 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { config } from "@/config";
 import { useToast } from "@/components/ui/use-toast";
+import { loginWithEmailPassword } from "@/actions/auth";
 
 // form schema
 const formSchema = z.object({
@@ -42,16 +42,7 @@ function LoginForm() {
   const onSubmit = async (formData: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${config.API}/auth/login`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
+      const data = await loginWithEmailPassword(formData);
 
       toast({
         variant: "destructive",

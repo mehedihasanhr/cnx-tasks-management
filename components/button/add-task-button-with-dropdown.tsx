@@ -8,12 +8,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-function AddTaskButtonWithDropdown() {
+function AddTaskButtonWithDropdown({
+  toggleEditMode,
+}: {
+  toggleEditMode: () => void;
+}) {
   return (
     <div className="flex">
       <Button
         variant="secondary"
         size="sm"
+        onClick={toggleEditMode}
         className="rounded-r-none border border-r-0 border-white/10 text-xs"
       >
         <IconPlus size={16} className="mr-0.5" />

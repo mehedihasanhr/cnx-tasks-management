@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import * as jose from "jose";
 import { db } from "@/lib/db";
 import { cookies } from "next/headers";
@@ -30,7 +31,7 @@ export async function createCookie(sessionId: string) {
     .setIssuedAt()
     .setIssuer("urn:example:issuer")
     .setAudience("urn:example:audience")
-    .setExpirationTime("1h")
+    .setExpirationTime("7d")
     .setSubject(sessionId)
     .sign(secretSessionKey);
 
@@ -61,6 +62,7 @@ export async function verifyUserSession(token: string) {
   try {
     const res = await fetch(`${config.API}/auth/session`, {
       method: "POST",
+      credentials: "include",
       body: JSON.stringify({ token }),
     });
 

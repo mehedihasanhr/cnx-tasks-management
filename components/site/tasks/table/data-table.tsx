@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import {
   flexRender,
   getCoreRowModel,
@@ -17,28 +16,45 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+
+import { Task } from "@/types";
 import { columns as defaultColumns } from "./columns";
 
+import TaskTitle from "./task-title";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function TaskDataTable({ tasks }: any) {
+function TaskDataTable({
+  tasks,
+  editMode,
+  toggleEditMode,
+}: {
+  tasks: Task[];
+  editMode?: boolean;
+  toggleEditMode: () => void;
+}) {
   const [columns] = React.useState<typeof defaultColumns>(() => [
     ...defaultColumns,
   ]);
 
+  // memorized columns
+  const tableColumns = React.useMemo(() => columns, [columns]);
+  const tableData = React.useMemo(
+    () => tasks.sort((a, b) => b.id - a.id),
+    [tasks]
+  );
+
   const table = useReactTable({
-    data: tasks,
-    columns,
+    data: tableData,
+    columns: tableColumns,
     columnResizeMode: "onEnd",
     columnResizeDirection: "ltr",
     getCoreRowModel: getCoreRowModel(),
   });
 
   React.useEffect(() => {
-    return () => {
-      const body = document.getElementsByTagName("body")[0];
-      body.style.cursor = "default";
-    };
-  }, []);
+    if (editMode) toggleEditMode();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tableData]);
 
   return (
     <ScrollArea className="mt-8 flex-1">
@@ -53,10 +69,7 @@ function TaskDataTable({ tasks }: any) {
                       key={header.id}
                       className="relative text-xs"
                       style={{
-                        width:
-                          header.column.id === "task_name"
-                            ? "50%"
-                            : `${header.getSize()}px`,
+                        width: `${header.getSize()}px`,
                       }}
                     >
                       <>
@@ -68,40 +81,26 @@ function TaskDataTable({ tasks }: any) {
                             )}
 
                         <div
-                          aria-hidden
-                          onMouseDown={() => {
-                            const body =
-                              document.getElementsByTagName("body")[0];
-                            body.style.cursor = "col-resize";
+                          {...{
+                            onMouseDown: header.getResizeHandler(),
+                            onTouchStart: header.getResizeHandler(),
+                            className: `absolute top-0 right-0 z-10 h-full w-[5px] hover:border-r-2 border-red-500 cursor-col-resize ${
+                              table.options.columnResizeDirection
+                            } ${header.column.getIsResizing() ? "border-r border-red-500" : ""}`,
+                            style: {
+                              transform: header.column.getIsResizing()
+                                ? `translateX(${
+                                    (table.options.columnResizeDirection ===
+                                    "rtl"
+                                      ? -1
+                                      : 1) *
+                                    (table.getState().columnSizingInfo
+                                      .deltaOffset ?? 0)
+                                  }px)`
+                                : "",
+                            },
                           }}
-                          onMouseUp={() => {
-                            const body =
-                              document.getElementsByTagName("body")[0];
-                            body.style.cursor = "default";
-                          }}
-                        >
-                          <div
-                            {...{
-                              onMouseDown: header.getResizeHandler(),
-                              onTouchStart: header.getResizeHandler(),
-                              className: `absolute top-0 right-0 z-10 h-full w-[5px] hover:border-r-2 border-red-500 cursor-col-resize ${
-                                table.options.columnResizeDirection
-                              } ${header.column.getIsResizing() ? "border-r border-red-500" : ""}`,
-                              style: {
-                                transform: header.column.getIsResizing()
-                                  ? `translateX(${
-                                      (table.options.columnResizeDirection ===
-                                      "rtl"
-                                        ? -1
-                                        : 1) *
-                                      (table.getState().columnSizingInfo
-                                        .deltaOffset ?? 0)
-                                    }px)`
-                                  : "",
-                              },
-                            }}
-                          />
-                        </div>
+                        />
                       </>
                     </TableHead>
                   );
@@ -110,6 +109,20 @@ function TaskDataTable({ tasks }: any) {
             ))}
           </TableHeader>
           <TableBody>
+            {/* Render empty row */}
+            {editMode && (
+              <TableRow data-state="selected">
+                <TableCell className="text-xs">
+                  <TaskTitle
+                    title=""
+                    CREATE_NEW
+                    toggleEditMode={toggleEditMode}
+                  />
+                </TableCell>
+              </TableRow>
+            )}
+
+            {/* Render Table Data */}
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -118,7 +131,13 @@ function TaskDataTable({ tasks }: any) {
                   className="hover:bg-base-300/5"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="relative text-sm">
+                    <TableCell
+                      key={cell.id}
+                      className="relative max-w-[700px] text-xs"
+                      style={{
+                        width: `${cell.column.getSize()}px`,
+                      }}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

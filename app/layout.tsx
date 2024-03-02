@@ -8,6 +8,7 @@ import "@/node_modules/react-resizable/css/styles.css";
 // Global css
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "sonner";
 
 import { cn } from "@/lib/utils";
 
@@ -36,6 +37,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
+        <Sonner richColors />
       </body>
     </html>
   );

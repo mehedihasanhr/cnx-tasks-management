@@ -4,6 +4,7 @@ import bcript from "bcrypt";
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { createCookie, createSession } from "@/lib/session";
+import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -48,6 +49,13 @@ export async function POST(request: NextRequest) {
 
     // create cookies
     await createCookie(session);
+
+    cookies().set("token", "test", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7, // One week
+      path: "/",
+    });
 
     // return response
     return Response.json(

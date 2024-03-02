@@ -80,11 +80,11 @@ model Project {
 // task modal
 model Task {
   id            Int                @id @default(autoincrement())
-  title         String
+  title         String?
   taskCreator   Profile            @relation(name: "TaskCreatorRelation", fields: [taskCreatorId], references: [userId])
   taskCreatorId Int
-  assignee      Profile            @relation(name: "AssigneeRelation", fields: [assigneeId], references: [userId])
-  assigneeId    Int
+  assignee      Profile?           @relation(name: "AssigneeRelation", fields: [assigneeId], references: [userId])
+  assigneeId    Int?
   description   String?
   dueDate       DateTime?
   project       Project?           @relation(fields: [projectId], references: [id])

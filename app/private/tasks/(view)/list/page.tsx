@@ -1,25 +1,10 @@
 import React from "react";
-import AddTaskButtonWithDropdown from "@/components/button/add-task-button-with-dropdown";
-import TaskDataTable from "@/components/tables/tasks/data-table";
-import { config } from "@/config";
-
-const fetchTasks = async () => {
-  const tasks = await fetch(`${config.API}/tasks`, {
-    cache: "no-cache",
-  }).then((res) => res.json());
-
-  return tasks;
-};
+import { fetchTasks } from "@/actions/tasks";
+import TaskTable from "@/components/site/tasks/TaskTable";
 
 async function TaskListView() {
   const { tasks } = await fetchTasks();
-
-  return (
-    <>
-      <AddTaskButtonWithDropdown />
-      <TaskDataTable tasks={tasks} />
-    </>
-  );
+  return <TaskTable tasks={tasks} />;
 }
 
 export default TaskListView;

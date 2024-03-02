@@ -15,9 +15,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { config } from "@/config";
 import { KeyRound, Mail, User } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { createAccountWithEmailPassword } from "@/actions/auth";
 
 // form schema
 const formSchema = z
@@ -56,16 +56,7 @@ function SignUpForm() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${config.API}/auth/signup`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
+      const data = await createAccountWithEmailPassword(formData);
 
       toast({
         variant: "destructive",

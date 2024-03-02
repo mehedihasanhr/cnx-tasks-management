@@ -1,12 +1,8 @@
 import React from "react";
 import TabsNavigation from "@/components/site/tabs-navigation";
 import TabNavigationItem from "@/components/site/tab-navigation-item";
-import { Separator } from "../../../components/ui/separator";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../../components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function TaskPageLayout({ children }: { children: React.ReactNode }) {
   return (
