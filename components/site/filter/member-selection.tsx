@@ -1,8 +1,4 @@
-"use client";
-
-import React from "react";
-
-import ProjectPopover from "@/components/site/projects/project-popover";
+import MemberList from "@/components/site/member-list";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,29 +6,40 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Project } from "@/types";
+import { Member } from "@/types";
 import { IconChevronDown, IconTrash } from "@tabler/icons-react";
+import React from "react";
 
-function ProjectSelectionFilter({
-  onSelect,
-  title,
-  remove,
-}: {
-  onSelect: (project: Project) => void;
-  title: string;
+interface Option {
+  id: string;
+  type: string;
+  fieldName: string;
+  value: string | ArgType;
+}
+
+interface ArgType {
+  from: Date;
+  to?: Date;
+}
+
+interface PropTypes {
+  option: Option;
+  onSelect: (value: Member) => void;
   remove: () => void;
-}) {
+}
+
+function MemberSelection({ option, onSelect, remove }: PropTypes) {
   const [open, setOpen] = React.useState(false);
 
-  const handleProjectSelection = (project: Project) => {
+  const handleSelection = (member: Member) => {
     setOpen(false);
-    onSelect(project);
+    onSelect(member);
   };
 
   return (
     <div>
       <p className="mb-1 flex items-center text-sm font-medium text-base-300">
-        Project
+        {option.fieldName}
         <Button
           variant="link"
           size="icon-sm"
@@ -48,20 +55,23 @@ function ProjectSelectionFilter({
           <div>
             <Input
               readOnly
-              defaultValue={title}
+              defaultValue={option.value as string}
               type="text"
-              placeholder="Select Project"
+              placeholder="Select member"
               className="cursor-default bg-base-300/5"
               icon={<IconChevronDown />}
             />
           </div>
         </PopoverTrigger>
         <PopoverContent className="border p-0">
-          <ProjectPopover onSelect={handleProjectSelection} />
+          <MemberList
+            value={option.value as string}
+            onSelect={handleSelection}
+          />
         </PopoverContent>
       </Popover>
     </div>
   );
 }
 
-export default ProjectSelectionFilter;
+export default MemberSelection;

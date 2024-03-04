@@ -1,5 +1,7 @@
 import SingleDatePicker from "@/components/single-date-picker";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { IconTrash } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { Calendar } from "lucide-react";
 import React from "react";
@@ -19,9 +21,10 @@ interface ArgType {
 interface PropTypes {
   option: Option;
   onSelect: (value: ArgType) => void;
+  remove: () => void;
 }
 
-function DateSelectionFilter({ option, onSelect }: PropTypes) {
+function DateSelectionFilter({ option, onSelect, remove }: PropTypes) {
   const [startDate, setStartDate] = React.useState<Date | undefined>(
     (option.value as ArgType).from
   );
@@ -45,8 +48,17 @@ function DateSelectionFilter({ option, onSelect }: PropTypes) {
 
   return (
     <div className="w-full">
-      <p className="mb-1 text-sm font-medium text-base-300">
+      <p className="mb-1 flex items-center text-sm font-medium text-base-300">
         {option.fieldName}
+
+        <Button
+          variant="link"
+          size="icon-sm"
+          onClick={remove}
+          className="text-base-300 hover:text-white"
+        >
+          <IconTrash size={14} />
+        </Button>
       </p>
 
       <div className="flex items-center">

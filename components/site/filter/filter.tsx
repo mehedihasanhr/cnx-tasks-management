@@ -3,6 +3,7 @@ import { match } from "ts-pattern";
 import { v4 } from "uuid";
 
 import DateSelectionFilter from "@/components/site/filter/date-selection";
+import MemberSelection from "@/components/site/filter/member-selection";
 import ProjectSelectionFilter from "@/components/site/filter/projects-select";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +18,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { Project } from "@/types";
+import { Member, Project } from "@/types";
 import { IconChevronDown, IconPlus } from "@tabler/icons-react";
 
 interface PropTypes {
@@ -27,10 +28,10 @@ interface PropTypes {
 const quickFilterOptions = ["Pending", "Completed", "On hold", "Progressing"];
 const customFilterOption = [
   { type: "project", title: "Project" },
-  { type: "person", title: "Creator" },
+  { type: "person", title: "Created by" },
   { type: "person", title: "Assignee" },
   { type: "date", title: "Due date" },
-  { type: "date", title: "Creation date" },
+  { type: "date", title: "Created on" },
 ];
 
 type CustomFilterType = {
@@ -106,6 +107,23 @@ function Filter({ children }: PropTypes) {
     setActiveFilter((prev) => ({ ...prev, customFilter: newData }));
   }
 
+  // handle member selection
+  const handleMemberSelection = (option: CustomFilterType, data: Member) => {
+    const customFilter = [...activeFilter.customFilter];
+    const modifiedItem = { ...option, value: data.name };
+    const newData = customFilter.map((i) =>
+      i.id === option.id ? modifiedItem : i
+    );
+
+    setActiveFilter((prev) => ({ ...prev, customFilter: newData }));
+  };
+
+  // handle remove filter option
+  const handleRemoveFilterOption = (id: string) => {
+    const data = activeFilter.customFilter?.filter((d) => d.id !== id);
+    setActiveFilter((prev) => ({ ...prev, customFilter: data }));
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
@@ -142,18 +160,28 @@ function Filter({ children }: PropTypes) {
                   .with({ type: "date" }, (option) => (
                     <DateSelectionFilter
                       option={option}
+                      remove={() => handleRemoveFilterOption(option.id)}
                       onSelect={(data: { from: Date; to?: Date }) =>
                         handleDateSelection(option, data)
                       }
                     />
                   ))
-                  .with({ type: "person" }, (f) => (
-                    <p className="text-white">{f.fieldName}</p>
+                  .with({ type: "person" }, (option) => (
+                    <MemberSelection
+                      option={option}
+                      remove={() => handleRemoveFilterOption(option.id)}
+                      onSelect={(data: Member) =>
+                        handleMemberSelection(option, data)
+                      }
+                    />
                   ))
-                  .with({ type: "project" }, (i) => (
+                  .with({ type: "project" }, (option) => (
                     <ProjectSelectionFilter
-                      title={i.value as string}
-                      onSelect={(project) => handleProjectSelect(i, project)}
+                      remove={() => handleRemoveFilterOption(option.id)}
+                      title={option.value as string}
+                      onSelect={(project) =>
+                        handleProjectSelect(option, project)
+                      }
                     />
                   ))
                   .otherwise(() => null)}
