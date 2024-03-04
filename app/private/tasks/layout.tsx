@@ -25,9 +25,7 @@ function TaskPageLayout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
       <Separator className="-mt-0.5 h-0.5 bg-white/10" />
-
       {/* Container */}
-
       <section className="px-10 pb-0 pt-8">{children}</section>
     </div>
   );

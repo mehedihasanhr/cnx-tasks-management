@@ -1,3 +1,24 @@
 {
-  "cSpell.words": ["adipisicing"]
+  "cSpell.words": ["adipisicing"],
+  "path-intellisense.mappings": {
+    "@/": "${workspaceFolder}"
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "eslint.validate": [
+    "javascript",
+    "svelte",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never",
+      "source.fixAll": "always",
+      "source.fixAll.eslint": "always"
+    }
+  },
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always" // Enable automatic import sorting on save for all file types
+  }
 }

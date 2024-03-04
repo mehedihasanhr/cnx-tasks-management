@@ -1,17 +1,8 @@
 "use client";
 
 import React from "react";
-import useSWR from "swr";
-import { config } from "@/config";
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandSeparator,
-} from "@/components/ui/command";
+import { CommandItem, CommandSeparator } from "@/components/ui/command";
 
 import {
   Popover,
@@ -19,78 +10,47 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import type { Project } from "@/types";
-import { Check, Plus } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { updateTask } from "@/actions/tasks";
-
-// fetcher
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import ProjectPopover from "@/components/site/projects/project-popover";
+import type { Project, TaskStatus } from "@/types";
+import { Plus } from "lucide-react";
+import { toast } from "sonner";
 
 // ProjectList
 function ProjectPopoverContent({
   taskId,
+  status,
   onSelect,
 }: {
   taskId: number;
+  status?: TaskStatus;
   onSelect: (value: string) => void;
 }) {
-  const [value, setValue] = React.useState("");
-
-  const { data, isLoading, error } = useSWR(
-    `${config.API}/projects?w-status=COMPLETE`,
-    fetcher
-  );
-
   // update task on select
-  const updateOnSelect = async (id: number) => {
-    await updateTask(taskId, { projectId: id });
+  const updateOnSelect = async (project: Project) => {
+    if (status && status === "PENDING") {
+      onSelect(project.title);
+      await updateTask(taskId, { projectId: project.id });
+    } else {
+      toast.error(`Task already in ${status}`, {
+        description: "You can't change project for this task",
+      });
+    }
   };
 
-  if (error) {
-    throw new Error(error);
-  }
-
-  if (isLoading) {
-    return <div className="px-2 py-1.5 text-base-300"> Loading... </div>;
-  }
-
   return (
-    <Command>
-      <CommandInput placeholder="Search framework..." className="h-9" />
-      <CommandEmpty>No framework found.</CommandEmpty>
-      <CommandGroup>
-        <ScrollArea className="max-h-72">
-          {data?.projects?.map((project: Project) => (
-            <CommandItem
-              key={project.id}
-              value={project.title}
-              onSelect={(currentValue) => {
-                setValue(currentValue);
-                onSelect(project.title);
-                updateOnSelect(project.id);
-              }}
-              className="cursor-pointer text-sm text-white/80"
-            >
-              <Check
-                className={cn(
-                  "mr-2 h-4 w-4",
-                  value === project.title ? "opacity-100" : "opacity-0"
-                )}
-              />
-              {project.title}
-            </CommandItem>
-          ))}
-
+    <ProjectPopover
+      onSelect={updateOnSelect}
+      footer={
+        <>
           <CommandSeparator className="mb-1 mt-4" />
           <CommandItem className="pl-5 hover:cursor-pointer">
             <Plus className="mr-2 h-4 w-4" />
             <span>Create Project</span>
           </CommandItem>
-        </ScrollArea>
-      </CommandGroup>
-    </Command>
+        </>
+      }
+    />
   );
 }
 
@@ -98,11 +58,13 @@ function ProjectPopoverContent({
 function ProjectList({
   project,
   taskId,
+  status,
 }: {
   project: { id: number; title: string };
   taskId: number;
+  status?: TaskStatus;
 }) {
-  const [value, setValue] = React.useState(project.title);
+  const [value, setValue] = React.useState(project?.title);
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -119,6 +81,7 @@ function ProjectList({
       <PopoverContent className="p-0" sideOffset={10}>
         <ProjectPopoverContent
           taskId={taskId}
+          status={status}
           onSelect={(value: string) => {
             setValue((prev) => (prev === value ? "" : value));
             setOpen(false);

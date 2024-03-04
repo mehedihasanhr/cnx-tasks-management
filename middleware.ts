@@ -10,6 +10,10 @@ export async function middleware(request: NextRequest) {
   // verified user
   const verified = sessionToken ? await verifyUserSession(sessionToken) : false;
 
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL(`/login`, request.url));
+  }
+
   if (["/login", "/sign-up"].includes(pathname)) {
     if (typeof verified !== "boolean" && verified.status === 200) {
       return NextResponse.redirect(new URL(`/dashboard`, request.url));

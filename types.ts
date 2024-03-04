@@ -8,6 +8,13 @@ export interface Member {
   avatar?: string;
 }
 
+export type TaskStatus =
+  | "COMPLETE"
+  | "PENDING"
+  | "PROGRESSING"
+  | "OVER_DUE"
+  | "HOLD";
+
 export interface Project {
   id: number;
   title: string;
@@ -27,7 +34,7 @@ export interface Task {
   description?: string;
   dueDate?: Date;
   projectId?: number;
-  status: string;
+  status: TaskStatus;
   createdAt: Date;
   updatedAt: Date;
   members: Member[];

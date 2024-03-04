@@ -39,7 +39,7 @@ function Navbar() {
             <IconSubtask />
             My Tasks
           </NavItem>
-          <NavItem href="#inbox">
+          <NavItem href="/tasks/invite-member">
             <IconMessage />
             Inbox
             <Badge>03</Badge>

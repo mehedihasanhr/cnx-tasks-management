@@ -3,6 +3,7 @@ import type { Task } from "@/types";
 import DueDate from "./due-date";
 import TaskTitle from "./task-title";
 import ProjectList from "./project-list";
+import TaskAssignee from "./task-assignee";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const columns: ColumnDef<Task>[] = [
@@ -10,9 +11,9 @@ export const columns: ColumnDef<Task>[] = [
     id: "task_name",
     header: "Task name",
     accessorKey: "title",
-    minSize: 400,
-    size: 700,
-    maxSize: 700,
+    minSize: 300,
+    size: 500,
+    maxSize: 500,
     enableResizing: true,
     cell: ({ row }) => {
       const { id, status, title } = row.original;
@@ -43,12 +44,22 @@ export const columns: ColumnDef<Task>[] = [
     accessorKey: "project",
     enableResizing: true,
     cell: ({ row }) => {
-      const { id, project } = row.original;
+      const { id, status, project } = row.original;
       return (
         <div className="text-xs font-medium text-base-300">
-          <ProjectList taskId={id} project={project} />
+          <ProjectList status={status} taskId={id} project={project} />
         </div>
       );
+    },
+  },
+  {
+    id: "assignee",
+    header: "Assignee",
+    accessorKey: "assignee",
+    enableResizing: true,
+    cell: ({ row }) => {
+      const { id, status, assignee } = row.original;
+      return <TaskAssignee taskId={id} assignee={assignee} status={status} />;
     },
   },
   {
