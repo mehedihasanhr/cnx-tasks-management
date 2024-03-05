@@ -1,30 +1,30 @@
-import Image from "next/image";
 import {
+  IconDotsVertical,
   IconFolder,
   IconHome,
+  IconLogout,
   IconMessage,
   IconReport,
   IconSubtask,
-  IconUsersGroup,
   IconTargetArrow,
-  IconDotsVertical,
-  IconLogout,
+  IconUsersGroup,
 } from "@tabler/icons-react";
-import NavItem from "./nav-item";
-import { Badge } from "../../ui/badge";
+import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Badge } from "../../ui/badge";
+import { Button } from "../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
-import { Button } from "../../ui/button";
 import Logout from "../logout";
+import NavItem from "./nav-item";
 
 function Navbar() {
   return (
-    <div className="inset-y-0 flex w-64 flex-col border-r border-base-0/5">
+    <div className="inset-0 flex w-64 min-w-64 flex-col border-r border-base-0/5">
       <div className="border-b border-base-0/5 bg-base-400/10 px-4 py-2.5 text-2xl font-semibold text-red-500">
         <Image src="/logo.svg" alt="" width={164} height={40} />
       </div>

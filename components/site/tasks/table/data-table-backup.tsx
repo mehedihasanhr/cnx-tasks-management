@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-table";
 import React from "react";
 
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -18,7 +19,6 @@ import {
 
 import {
   DndContext,
-  DragStartEvent,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
@@ -37,13 +37,12 @@ import {
 } from "@dnd-kit/sortable";
 
 import {
+  restrictToHorizontalAxis,
   restrictToVerticalAxis,
-  restrictToWindowEdges,
 } from "@dnd-kit/modifiers";
 
 import DraggableRow from "@/components/site/tasks/table/dragable-row";
 import DraggableHeader from "@/components/site/tasks/table/draggable-header";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Task } from "@/types";
 import { columns as defaultColumns } from "./columns";
 
@@ -67,8 +66,6 @@ function TaskDataTable({
   const [columnOrder, setColumnOrder] = React.useState<string[]>(() =>
     columns.map((c) => c.id!)
   );
-
-  const [dragMode, setDragMode] = React.useState("");
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
@@ -117,8 +114,6 @@ function TaskDataTable({
     if (active && over && active.id !== over.id) {
       const activeContainer = active.data.current?.sortable.containerId;
 
-      if (activeContainer === "col" && over.id !== "task_name") return;
-
       if (activeContainer === "col") {
         setColumnOrder((columnOrder) => {
           const oldIndex = columnOrder.indexOf(active.id as string);
@@ -143,19 +138,12 @@ function TaskDataTable({
   );
 
   return (
-    <ScrollArea className="flex">
-      <div className="px-10 pb-10">
+    <ScrollArea className="mt-8 flex-1">
+      <div className=" pb-3">
         <DndContext
           collisionDetection={closestCenter}
-          modifiers={
-            dragMode === "col"
-              ? [restrictToWindowEdges]
-              : [restrictToVerticalAxis]
-          }
+          modifiers={[restrictToHorizontalAxis]}
           onDragEnd={handleDragEnd}
-          onDragStart={({ active }: DragStartEvent) => {
-            setDragMode(active.data.current?.sortable.containerId);
-          }}
           sensors={sensors}
         >
           <Table>
@@ -193,31 +181,39 @@ function TaskDataTable({
                   </TableCell>
                 </TableRow>
               )}
-              {/* Render Table Data */}
-              {table.getRowModel().rows?.length ? (
-                <SortableContext
-                  id="row"
-                  items={dataIds}
-                  strategy={verticalListSortingStrategy}
-                >
-                  {table.getRowModel().rows.map((row) => (
-                    <DraggableRow key={row.id} table={table} row={row} />
-                  ))}
-                </SortableContext>
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
+              <DndContext
+                collisionDetection={closestCenter}
+                modifiers={[restrictToVerticalAxis]}
+                onDragEnd={handleDragEnd}
+                sensors={sensors}
+              >
+                {/* Render Table Data */}
+                {table.getRowModel().rows?.length ? (
+                  <SortableContext
+                    id="row"
+                    items={dataIds}
+                    strategy={verticalListSortingStrategy}
                   >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
+                    {table.getRowModel().rows.map((row) => (
+                      <DraggableRow key={row.id} table={table} row={row} />
+                    ))}
+                  </SortableContext>
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </DndContext>
             </TableBody>
           </Table>
         </DndContext>
       </div>
+      <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );
 }

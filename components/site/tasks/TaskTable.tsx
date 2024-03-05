@@ -25,8 +25,8 @@ function TaskTable({ tasks }: { tasks: Task[] }) {
   const toggleEditMode = () => setEditMode((mode) => !mode); // toggle edit mode for insert a new task
 
   return (
-    <>
-      <div className="flex items-center">
+    <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex items-center px-10 pb-6 pt-8">
         <AddTaskButtonWithDropdown toggleEditMode={toggleEditMode} />
         <div className="ml-auto flex items-center gap-x-5">
           {/* Filter */}
@@ -63,11 +63,11 @@ function TaskTable({ tasks }: { tasks: Task[] }) {
         </div>
       </div>
       <TaskDataTable
-        tasks={tasks}
+        tasks={[...tasks.sort((a, b) => b.id - a.id)]}
         editMode={editMode}
         toggleEditMode={toggleEditMode}
       />
-    </>
+    </div>
   );
 }
 

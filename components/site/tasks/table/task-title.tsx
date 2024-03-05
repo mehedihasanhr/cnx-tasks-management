@@ -1,9 +1,9 @@
-import React from "react";
-import { IconCircleCheck } from "@tabler/icons-react";
+import { createTask, updateTask } from "@/actions/tasks";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { createTask, updateTask } from "@/actions/tasks";
+import { IconCircleCheck } from "@tabler/icons-react";
 import { RocketIcon } from "lucide-react";
+import React from "react";
 import { toast } from "sonner";
 
 interface TaskTitleProps {
