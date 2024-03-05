@@ -1,10 +1,10 @@
 import { db } from "@/lib/db";
-import { $Enums, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
 
 type StatusType = {
-  in?: Prisma.FieldRef<"Project", "Status[]"> | $Enums.Status[];
-  not?: $Enums.Status | Prisma.EnumStatusFilter<"Project">;
+  in?: string[] | Prisma.FieldRef<"Status", "String[]">;
+  not?: string | Prisma.NestedStringFilter<"Status">;
 };
 
 const StatusEnum = [
@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const projects = await db.project.findMany({
-      where: { status: { not: withoutStatus, in: status } },
+      where: { status: { slug: { not: withoutStatus, in: status } } },
       include: {
         createdBy: {
           select: { userId: true, id: true, avatar: true, name: true },
