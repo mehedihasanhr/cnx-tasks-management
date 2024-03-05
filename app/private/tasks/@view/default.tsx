@@ -1,5 +1,5 @@
 import { fetchTasks } from "@/actions/tasks";
-import TaskTable from "@/components/site/tasks/TaskTable";
+import TaskTable from "@/components/site/tasks/task-table";
 
 async function DefaultTaskListView() {
   const { tasks } = await fetchTasks();

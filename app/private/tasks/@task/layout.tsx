@@ -1,12 +1,13 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 function TaskDetailsPageLayout({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = React.useState(true);
   const route = useRouter();
+  const pathname = usePathname();
   const ref = React.useRef<HTMLDivElement>(null);
 
   // redirect to back
@@ -19,6 +20,8 @@ function TaskDetailsPageLayout({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    setIsOpen(true);
+
     function handleOutsideClick(event: MouseEvent) {
       if (ref && ref.current && !ref.current.contains(event.target as Node)) {
         back();
@@ -27,7 +30,7 @@ function TaskDetailsPageLayout({ children }: { children: React.ReactNode }) {
     window.addEventListener("mousedown", handleOutsideClick);
     return () => window.removeEventListener("mousedown", handleOutsideClick);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ref, route]);
+  }, [ref, route, pathname]);
 
   return (
     <AnimatePresence>

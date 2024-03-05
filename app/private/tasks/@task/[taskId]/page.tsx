@@ -13,6 +13,7 @@ import {
 } from "@tabler/icons-react";
 
 import { fetchTask } from "@/actions/tasks";
+import TaskCloseButton from "@/components/site/tasks/task-close-button";
 import { Badge } from "@/components/ui/badge";
 import dayjs from "dayjs";
 
@@ -78,13 +79,13 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
             <IconDots size={20} />
           </Button>
 
-          <Button
+          <TaskCloseButton
             variant="ghost"
             size="icon-sm"
             className="hover:text-base-white text-base-300"
           >
             <IconArrowBarRight size={20} />
-          </Button>
+          </TaskCloseButton>
         </div>
       </div>
 
