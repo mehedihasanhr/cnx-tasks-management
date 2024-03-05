@@ -11,6 +11,7 @@ function RowDragHandler({ taskId }: { taskId: number }) {
       className="absolute -left-4 z-50 h-full w-fit cursor-move text-base-300/50"
       {...attributes}
       {...listeners}
+      aria-describedby={`DndDescribedBy-${taskId}`}
     >
       <IconGripVertical size={14} />
     </Button>

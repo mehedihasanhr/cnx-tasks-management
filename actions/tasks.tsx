@@ -1,15 +1,24 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { config } from "@/config";
-import { cookies } from "next/headers";
 import { Prisma } from "@prisma/client";
+import { revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 import { db } from "../lib/db";
+
+// fetch tasks
+export const fetchTask = async (id: string) => {
+  const task = await fetch(`${config.API}/tasks/${id}`, {
+    next: { tags: ["TASK"] },
+  }).then((res) => res.json());
+
+  return task;
+};
 
 // fetch tasks
 export const fetchTasks = async () => {
   const tasks = await fetch(`${config.API}/tasks`, {
-    cache: "no-cache",
+    next: { tags: ["TASK_COLLECTION"] },
   }).then((res) => res.json());
 
   return tasks;
@@ -30,7 +39,8 @@ export async function updateTask(taskId: number, data: UpdateTaskDataType) {
     });
 
     if (res.ok) {
-      revalidatePath("/tasks/list", "page");
+      revalidateTag("TASK");
+      revalidateTag("TASK_COLLECTION");
     }
 
     const resData = await res.json();
@@ -58,7 +68,8 @@ export const createTask = async ({
         token,
       }),
     });
-    revalidatePath("/tasks/list");
+
+    revalidateTag("TASK_COLLECTION");
     const response = await res.json();
     return response;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

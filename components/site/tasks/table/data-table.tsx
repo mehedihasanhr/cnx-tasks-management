@@ -37,8 +37,8 @@ import {
 } from "@dnd-kit/sortable";
 
 import {
+  restrictToHorizontalAxis,
   restrictToVerticalAxis,
-  restrictToWindowEdges,
 } from "@dnd-kit/modifiers";
 
 import DraggableRow from "@/components/site/tasks/table/dragable-row";
@@ -116,9 +116,7 @@ function TaskDataTable({
 
     if (active && over && active.id !== over.id) {
       const activeContainer = active.data.current?.sortable.containerId;
-
-      if (activeContainer === "col" && over.id !== "task_name") return;
-
+      if (over.id === "task_name") return;
       if (activeContainer === "col") {
         setColumnOrder((columnOrder) => {
           const oldIndex = columnOrder.indexOf(active.id as string);
@@ -149,7 +147,7 @@ function TaskDataTable({
           collisionDetection={closestCenter}
           modifiers={
             dragMode === "col"
-              ? [restrictToWindowEdges]
+              ? [restrictToHorizontalAxis]
               : [restrictToVerticalAxis]
           }
           onDragEnd={handleDragEnd}
@@ -201,7 +199,12 @@ function TaskDataTable({
                   strategy={verticalListSortingStrategy}
                 >
                   {table.getRowModel().rows.map((row) => (
-                    <DraggableRow key={row.id} table={table} row={row} />
+                    <DraggableRow
+                      key={row.id}
+                      table={table}
+                      row={row}
+                      columnOrder={columnOrder}
+                    />
                   ))}
                 </SortableContext>
               ) : (

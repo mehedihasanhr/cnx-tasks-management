@@ -1,9 +1,8 @@
-import React from "react";
 import { Skeleton } from "../../../../../components/ui/skeleton";
 
 function TaskListLoader() {
   return (
-    <>
+    <div className="px-10 pt-8">
       <Skeleton className="h-9 w-36" />
 
       <div className="mt-8">
@@ -23,7 +22,7 @@ function TaskListLoader() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 

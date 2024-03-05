@@ -1,8 +1,9 @@
 import { createTask, updateTask } from "@/actions/tasks";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { IconCircleCheck } from "@tabler/icons-react";
+import { IconChevronRight, IconCircleCheck } from "@tabler/icons-react";
 import { RocketIcon } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import { toast } from "sonner";
 
@@ -21,11 +22,13 @@ function TaskTitle({
   CREATE_NEW,
   toggleEditMode,
 }: TaskTitleProps) {
-  const [name, setName] = React.useState("");
+  const [name, setName] = React.useState(title);
+  const [isLoading, setIsLoading] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setName(title);
+    setIsLoading(false);
   }, [title]);
 
   // focus
@@ -40,7 +43,11 @@ function TaskTitle({
       currentTarget: { innerText: React.SetStateAction<string> };
     }) => {
       const title = evt.currentTarget.innerText.toString();
+
+      if (title === name) return;
+
       if (taskId && !CREATE_NEW) {
+        setIsLoading(true);
         await updateTask(taskId, { title: title.toString() });
       } else {
         if (!title && toggleEditMode) toggleEditMode();
@@ -77,16 +84,22 @@ function TaskTitle({
 
   return (
     <div className="flex w-full items-center">
-      <Button
-        variant="link"
-        size="icon"
-        onClick={markAsComplete}
-        className={`mr-2 h-fit w-fit p-0 ${
-          status === "COMPLETE" ? "text-green-400" : "text-base-300"
-        }`}
-      >
-        <IconCircleCheck />
-      </Button>
+      <div>
+        {isLoading ? (
+          "Loading..."
+        ) : (
+          <Button
+            variant="link"
+            size="icon"
+            onClick={markAsComplete}
+            className={`mr-2 h-fit w-fit p-0 ${
+              status === "COMPLETE" ? "text-green-400" : "text-base-300"
+            }`}
+          >
+            <IconCircleCheck />
+          </Button>
+        )}
+      </div>
       <ScrollArea className="flex-1">
         <div
           ref={ref}
@@ -100,6 +113,21 @@ function TaskTitle({
         </div>
         <ScrollBar orientation="horizontal" className="invisible" />
       </ScrollArea>
+
+      {taskId && (
+        <div className="">
+          <Button variant="ghost" size="icon-sm" className="h-8 w-8" asChild>
+            <Link
+              href={`/tasks/${taskId}`}
+              scroll={false}
+              prefetch={false}
+              aria-label="open-task"
+            >
+              <IconChevronRight size={16} />
+            </Link>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
