@@ -1,6 +1,7 @@
 import { createTask, updateTask } from "@/actions/tasks";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { TaskStatus } from "@/types";
 import { IconChevronRight, IconCircleCheck } from "@tabler/icons-react";
 import { RocketIcon } from "lucide-react";
 import Link from "next/link";
@@ -9,7 +10,7 @@ import { toast } from "sonner";
 
 interface TaskTitleProps {
   taskId?: number;
-  status?: string;
+  status?: TaskStatus;
   title: string;
   CREATE_NEW?: boolean;
   toggleEditMode?: () => void;
@@ -63,8 +64,8 @@ function TaskTitle({
 
   const markAsComplete = async () => {
     if (!taskId) return;
-    if (status !== "COMPLETE") {
-      await updateTask(taskId, { status: "COMPLETE" });
+    if (status && status.slug !== "COMPLETE") {
+      await updateTask(taskId, { statusId: 2 });
       toast.success(
         <div className="flex items-start font-bold">
           <RocketIcon className="mr-2 h-4 w-4" />
@@ -72,7 +73,7 @@ function TaskTitle({
         </div>
       );
     } else {
-      await updateTask(taskId, { status: "PROGRESSING" });
+      await updateTask(taskId, { statusId: 3 });
       toast.info(
         <div className="flex items-start font-bold">
           <RocketIcon className="mr-2 h-4 w-4" />
@@ -83,7 +84,7 @@ function TaskTitle({
   };
 
   return (
-    <div className="flex w-full items-center">
+    <div className="group flex w-full items-center">
       <div>
         {isLoading ? (
           "Loading..."
@@ -93,7 +94,9 @@ function TaskTitle({
             size="icon"
             onClick={markAsComplete}
             className={`mr-2 h-fit w-fit p-0 ${
-              status === "COMPLETE" ? "text-green-400" : "text-base-300"
+              status && status.slug === "COMPLETE"
+                ? "text-green-400"
+                : "text-base-300"
             }`}
           >
             <IconCircleCheck />
@@ -115,7 +118,7 @@ function TaskTitle({
       </ScrollArea>
 
       {taskId && (
-        <div className="">
+        <div className="invisible group-hover:visible">
           <Button variant="ghost" size="icon-sm" className="h-8 w-8" asChild>
             <Link
               href={`/tasks/${taskId}`}

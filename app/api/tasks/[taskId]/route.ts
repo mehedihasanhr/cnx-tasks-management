@@ -18,6 +18,7 @@ export async function GET(
           select: { id: true, userId: true, name: true, avatar: true },
         },
         project: { select: { id: true, title: true } },
+        status: true,
       },
     });
 

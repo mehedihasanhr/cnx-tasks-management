@@ -55,12 +55,22 @@ model User {
   taskId    Int?
 }
 
-enum Status {
-  COMPLETE
-  PENDING
-  PROGRESSING
-  OVER_DUE
-  HOLD
+// enum Status {
+//   COMPLETE
+//   PENDING
+//   PROGRESSING
+//   OVER_DUE
+//   HOLD
+// }
+
+model Status {
+  id        Int       @id @default(autoincrement())
+  title     String
+  slug      String
+  textColor String
+  bgColor   String
+  Project   Project[]
+  Task      Task[]
 }
 
 // project modal
@@ -71,7 +81,8 @@ model Project {
   creatorId    Int
   dueDate      DateTime?
   task         Task[]
-  status       Status             @default(PENDING)
+  status       Status             @relation(fields: [statusId], references: [id])
+  statusId     Int                @default(1)
   dependencies TaskDependencies[]
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @default(now())
@@ -91,7 +102,8 @@ model Task {
   projectId     Int?
   dependencies  TaskDependencies[]
   members       Profile[]
-  status        Status             @default(PENDING)
+  status        Status             @relation(fields: [statusId], references: [id])
+  statusId      Int                @default(1)
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @default(now())
 }

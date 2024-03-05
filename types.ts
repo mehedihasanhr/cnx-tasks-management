@@ -8,12 +8,13 @@ export interface Member {
   avatar?: string;
 }
 
-export type TaskStatus =
-  | "COMPLETE"
-  | "PENDING"
-  | "PROGRESSING"
-  | "OVER_DUE"
-  | "HOLD";
+export type TaskStatus = {
+  id: number;
+  title: string;
+  slug: string;
+  textColor: string;
+  bgColor: string;
+};
 
 export interface Project {
   id: number;

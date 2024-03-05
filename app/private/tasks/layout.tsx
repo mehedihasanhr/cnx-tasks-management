@@ -2,6 +2,7 @@ import TabNavigationItem from "@/components/site/tab-navigation-item";
 import TabsNavigation from "@/components/site/tabs-navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { revalidatePath } from "next/cache";
 import React from "react";
 
 function TaskPageLayout({
@@ -13,6 +14,7 @@ function TaskPageLayout({
   view: React.ReactNode;
   task: React.ReactNode;
 }) {
+  revalidatePath("/tasks", "layout");
   return (
     <>
       <div className="flex flex-1 flex-col">

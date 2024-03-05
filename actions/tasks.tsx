@@ -31,7 +31,7 @@ export async function updateTask(taskId: number, data: UpdateTaskDataType) {
   try {
     const res = await fetch(`${config.API}/tasks/${taskId}/update`, {
       method: "PUT",
-      body: JSON.stringify({ data, tag: "tasks_collection" }),
+      body: JSON.stringify({ data, tag: "TASK_COLLECTION" }),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

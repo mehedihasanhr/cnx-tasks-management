@@ -1,8 +1,8 @@
 "use client";
 
+import { config } from "@/config";
 import React from "react";
 import useSWR from "swr";
-import { config } from "@/config";
 
 import {
   Command,
@@ -19,14 +19,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import type { Member, TaskStatus } from "@/types";
-import { Check } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { updateTask } from "@/actions/tasks";
-import { IconUserPlus } from "@tabler/icons-react";
-import { toast } from "sonner";
 import MemberInviteModal from "@/components/modals/member-invite-modal";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import type { Member, TaskStatus } from "@/types";
+import { IconUserPlus } from "@tabler/icons-react";
+import { Check } from "lucide-react";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 
 // fetcher
@@ -48,7 +48,7 @@ function TaskAssigneeContent({
 
   // update task on select
   const updateOnSelect = async (user: Member) => {
-    if (status === "PENDING") {
+    if (status && status.slug === "PENDING") {
       setValue(user.name);
       onSelect(user);
       await updateTask(taskId, { assigneeId: user.id });

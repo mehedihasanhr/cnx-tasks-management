@@ -28,7 +28,7 @@ function ProjectPopoverContent({
 }) {
   // update task on select
   const updateOnSelect = async (project: Project) => {
-    if (status && status === "PENDING") {
+    if (status && status.slug === "PENDING") {
       onSelect(project.title);
       await updateTask(taskId, { projectId: project.id });
     } else {

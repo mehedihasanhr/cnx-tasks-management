@@ -11,24 +11,24 @@ function TaskDetailsPageLayout({ children }: { children: React.ReactNode }) {
   const ref = React.useRef<HTMLDivElement>(null);
 
   // redirect to back
-  const back = () => {
-    setIsOpen(false);
-    const timer = setTimeout(() => {
-      route.back();
-      clearTimeout(timer);
-    }, 400);
-  };
+  // const back = () => {
+  //   setIsOpen(false);
+  //   const timer = setTimeout(() => {
+  //     route.back();
+  //     clearTimeout(timer);
+  //   }, 400);
+  // };
 
   useEffect(() => {
     setIsOpen(true);
 
-    function handleOutsideClick(event: MouseEvent) {
-      if (ref && ref.current && !ref.current.contains(event.target as Node)) {
-        back();
-      }
-    }
-    window.addEventListener("mousedown", handleOutsideClick);
-    return () => window.removeEventListener("mousedown", handleOutsideClick);
+    // function handleOutsideClick(event: MouseEvent) {
+    //   if (ref && ref.current && !ref.current.contains(event.target as Node)) {
+    //     back();
+    //   }
+    // }
+    // window.addEventListener("mousedown", handleOutsideClick);
+    // return () => window.removeEventListener("mousedown", handleOutsideClick);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref, route, pathname]);
 
