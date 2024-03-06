@@ -5,6 +5,7 @@ import { TaskStatus } from "@/types";
 import { IconChevronRight, IconCircleCheck } from "@tabler/icons-react";
 import { RocketIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 
@@ -26,6 +27,7 @@ function TaskTitle({
   const [name, setName] = React.useState(title);
   const [isLoading, setIsLoading] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   React.useEffect(() => {
     setName(title);
@@ -39,6 +41,7 @@ function TaskTitle({
     }
   }, [CREATE_NEW]);
 
+  // on blur
   const onContentBlur = React.useCallback(
     async (evt: {
       currentTarget: { innerText: React.SetStateAction<string> };
@@ -62,7 +65,10 @@ function TaskTitle({
     [CREATE_NEW, taskId]
   );
 
-  const markAsComplete = async () => {
+  // Mark as complete
+  const markAsComplete = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
     if (!taskId) return;
     if (status && status.slug !== "COMPLETE") {
       await updateTask(taskId, { statusId: 2 });
@@ -84,7 +90,11 @@ function TaskTitle({
   };
 
   return (
-    <div className="group flex w-full items-center">
+    <div
+      className="group flex w-full items-center"
+      role="presentation"
+      onClick={() => router.push(`/tasks/${taskId}`)}
+    >
       <div>
         {isLoading ? (
           "Loading..."
@@ -106,6 +116,8 @@ function TaskTitle({
       <ScrollArea className="flex-1">
         <div
           ref={ref}
+          role="presentation"
+          onClick={(e) => e.stopPropagation()}
           contentEditable="plaintext-only"
           data-placeholder="Write a task name"
           onBlur={onContentBlur}

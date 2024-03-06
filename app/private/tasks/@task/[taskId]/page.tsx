@@ -14,11 +14,18 @@ import {
 } from "@tabler/icons-react";
 
 import { fetchTask } from "@/actions/tasks";
+import SubTaskRow from "@/components/site/tasks/subtask-row";
 import TaskCloseButton from "@/components/site/tasks/task-close-button";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { Task } from "@/types";
 import dayjs from "dayjs";
 import { revalidateTag } from "next/cache";
+import dynamic from "next/dynamic";
+
+const RichEditor = dynamic(() => import("@/components/rich-editor"), {
+  ssr: false,
+});
 
 async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
   // revalidate on reload
@@ -31,7 +38,7 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
   const { task }: { task: Task } = data;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex h-screen flex-col">
       <div className="flex items-center border-b border-base-400 px-5 py-4">
         <Button variant="secondary" size="sm" className="text-xs">
           <IconCheck size={20} className="mr-2" />
@@ -97,7 +104,7 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
         </div>
       </div>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1" type="auto">
         <div className="px-8 py-8">
           <div className="mb-8 text-2xl"> {data.task.title} </div>
           <div className="flex flex-col gap-7">
@@ -149,7 +156,7 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
               </div>
             </div>
 
-            {/* Item */}
+            {/* status */}
             <div className="flex items-center gap-4">
               <div className="w-28 text-xs text-base-300">Status</div>
               <div className="flex flex-1 items-center text-xs text-base-300 hover:cursor-pointer hover:text-base-100">
@@ -163,9 +170,45 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
                 </Badge>
               </div>
             </div>
+
+            {/* description */}
+            <div className="flex flex-col gap-2.5">
+              <div className="w-28 text-xs text-base-300">Description</div>
+              <div className="flex flex-1 items-center text-xs text-base-300 hover:cursor-pointer hover:text-base-100">
+                <RichEditor placeholder="What is this task about?" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Subtask */}
+        <div className="mt-3.5 flex flex-col gap-2.5">
+          <div className="w-28 px-8 text-xs text-base-300">Subtasks</div>
+          <div className="flex flex-1 flex-col text-xs text-base-300">
+            <SubTaskRow task={task} />
+            <SubTaskRow task={task} />
+          </div>
+          <div className="mt-3 px-8">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="h-8 w-fit border-2 border-white/5 px-2.5 pr-3 text-xs font-normal"
+            >
+              <IconPlus size={15} className="mr-1.5" />
+              <span>Add subtask</span>
+            </Button>
           </div>
         </div>
       </ScrollArea>
+
+      {/* Subtask */}
+      <Separator className="my-5" />
+      <div className="flex flex-col gap-2.5 pb-6">
+        <div className="w-28 px-8 text-xs text-base-300">Comment</div>
+        <div className="flex flex-1 items-center px-8 text-xs text-base-300 hover:cursor-pointer hover:text-base-100">
+          <RichEditor placeholder="Write a comment" className="min-h-24" />
+        </div>
+      </div>
     </div>
   );
 }

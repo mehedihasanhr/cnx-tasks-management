@@ -1,7 +1,5 @@
-import React from "react";
-
 function MainLoader() {
-  return <div>Loading...</div>;
+  return <div>Main Loading...</div>;
 }
 
 export default MainLoader;

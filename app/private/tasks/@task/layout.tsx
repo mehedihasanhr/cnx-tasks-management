@@ -10,26 +10,12 @@ function TaskDetailsPageLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const ref = React.useRef<HTMLDivElement>(null);
 
-  // redirect to back
-  // const back = () => {
-  //   setIsOpen(false);
-  //   const timer = setTimeout(() => {
-  //     route.back();
-  //     clearTimeout(timer);
-  //   }, 400);
-  // };
-
   useEffect(() => {
-    setIsOpen(true);
-
-    // function handleOutsideClick(event: MouseEvent) {
-    //   if (ref && ref.current && !ref.current.contains(event.target as Node)) {
-    //     back();
-    //   }
-    // }
-    // window.addEventListener("mousedown", handleOutsideClick);
-    // return () => window.removeEventListener("mousedown", handleOutsideClick);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (pathname === "/tasks/list") {
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+    }
   }, [ref, route, pathname]);
 
   return (
@@ -41,7 +27,7 @@ function TaskDetailsPageLayout({ children }: { children: React.ReactNode }) {
           exit={{ x: "100%", right: 0 }}
           transition={{ ease: "linear", duration: 0.2 }}
           ref={ref}
-          className="fixed right-0 top-0 h-screen w-full max-w-[600px] border-l border-base-400 bg-base-500"
+          className="fixed right-0 top-0 z-10 h-screen w-full max-w-[600px] border-l border-base-400 bg-base-500"
         >
           {children}
         </motion.div>

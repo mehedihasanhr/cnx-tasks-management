@@ -10,14 +10,7 @@ interface PropTypes extends React.ComponentProps<typeof Button> {
 
 function TaskCloseButton({ ...props }: PropTypes) {
   const router = useRouter();
-
-  const back = () => {
-    const timer = setTimeout(() => {
-      router.back();
-      clearTimeout(timer);
-    }, 400);
-  };
-
+  const back = () => router.replace("/tasks/list");
   return <Button onClick={back} {...props} />;
 }
 
