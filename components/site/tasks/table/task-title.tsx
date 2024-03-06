@@ -48,6 +48,7 @@ function TaskTitle({
     }) => {
       const title = evt.currentTarget.innerText.toString();
 
+      if (!title && CREATE_NEW && toggleEditMode) toggleEditMode();
       if (title === name) return;
 
       if (taskId && !CREATE_NEW) {
