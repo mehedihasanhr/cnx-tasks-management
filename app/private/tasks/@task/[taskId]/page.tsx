@@ -107,7 +107,7 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
       <ScrollArea className="flex-1" type="auto">
         <div className="px-8 py-8">
           <div className="mb-8 text-2xl"> {data.task.title} </div>
-          <div className="flex flex-col gap-7">
+          <div className="flex flex-col gap-6">
             {/* Item */}
             <div className="flex items-center gap-4">
               <div className="w-28 text-xs text-base-300">Assignee</div>
@@ -152,7 +152,7 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
               <div className="w-28 text-xs text-base-300">Priority</div>
               <div className="flex flex-1 items-center text-xs text-base-300 hover:cursor-pointer hover:text-base-100">
                 <IconPlus size={16} className="mr-2" />
-                Add dependencies
+                Add priority
               </div>
             </div>
 

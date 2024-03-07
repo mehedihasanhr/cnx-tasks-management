@@ -1,10 +1,7 @@
 "use client";
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
+import { createAccountWithEmailPassword } from "@/actions/auth";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,11 +10,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { KeyRound, Mail, User } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { createAccountWithEmailPassword } from "@/actions/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { KeyRound, Mail, User } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
 
 // form schema
 const formSchema = z
@@ -153,7 +153,11 @@ function SignUpForm() {
 
         <p className="text-sm text-base-300">
           Already have an account?{" "}
-          <Link href="/login" className="text-red-500 hover:underline">
+          <Link
+            href="/login"
+            prefetch={false}
+            className="text-red-500 hover:underline"
+          >
             Login
           </Link>
         </p>

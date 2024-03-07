@@ -53,7 +53,7 @@ function TaskAssigneeContent({
       onSelect(user);
       await updateTask(taskId, { assigneeId: user.id });
     } else {
-      toast.error(`Task already in ${status}`, {
+      toast.error(`Task already in ${status?.title}`, {
         description: "You didn't change assignee yet.",
       });
     }

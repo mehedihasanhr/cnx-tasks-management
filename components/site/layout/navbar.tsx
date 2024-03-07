@@ -1,8 +1,7 @@
+import LoggedUserDetails from "@/components/site/layout/logged-user-details";
 import {
-  IconDotsVertical,
   IconFolder,
   IconHome,
-  IconLogout,
   IconMessage,
   IconReport,
   IconSubtask,
@@ -10,16 +9,7 @@ import {
   IconUsersGroup,
 } from "@tabler/icons-react";
 import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Badge } from "../../ui/badge";
-import { Button } from "../../ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
-import Logout from "../logout";
 import NavItem from "./nav-item";
 
 function Navbar() {
@@ -84,36 +74,7 @@ function Navbar() {
       </div>
 
       {/* Profile */}
-      <div className="flex items-center border-t border-base-0/5 p-4">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <div className="px-2.5">
-          <h3 className="text-sm">MD Mehedi Hasan</h3>
-          <span className="text-xs leading-3 text-red-500">
-            Frontend Developer
-          </span>
-        </div>
-
-        <div className="ml-auto">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size="icon" variant="ghost" className="h-8 w-8">
-                <IconDotsVertical size={16} />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>
-                <Logout>
-                  <IconLogout size={18} className="mr-2" />
-                  Logout
-                </Logout>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
+      <LoggedUserDetails />
     </div>
   );
 }

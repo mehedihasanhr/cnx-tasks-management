@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
           create: {
             name,
             email,
+            avatarFallback: name?.slice(0, 2).toUpperCase(),
           },
         },
       },

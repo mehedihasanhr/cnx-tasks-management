@@ -38,6 +38,6 @@ export async function POST(req: NextRequest) {
     if (error.name === "JWTExpired") {
       return Response.json({ message: "Session Expired!" }, { status: 401 });
     }
-    return Response.json({ message: "Session Expired!" }, { status: 500 });
+    return Response.json({ message: "Authentication failed" }, { status: 500 });
   }
 }

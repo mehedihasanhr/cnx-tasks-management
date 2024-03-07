@@ -1,10 +1,7 @@
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
+import { loginWithEmailPassword } from "@/actions/auth";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,10 +10,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
-import { loginWithEmailPassword } from "@/actions/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
 
 // form schema
 const formSchema = z.object({
@@ -103,7 +103,11 @@ function LoginForm() {
 
         <p className="text-sm text-base-300">
           {"Haven't an account? "}
-          <Link href="/sign-up" className="text-red-500 hover:underline">
+          <Link
+            href="/sign-up"
+            prefetch={false}
+            className="text-red-500 hover:underline"
+          >
             Sign up
           </Link>
         </p>
