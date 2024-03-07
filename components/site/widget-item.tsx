@@ -1,6 +1,6 @@
 import React from "react";
 
-interface PropTypes extends React.ComponentPropsWithRef<"div"> {
+interface PropTypes extends React.ComponentProps<"div"> {
   dataKey: string;
 }
 
