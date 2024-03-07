@@ -49,7 +49,7 @@ function TaskAssigneeContent({
   // update task on select
   const updateOnSelect = async (user: Member) => {
     if (status && status.slug === "PENDING") {
-      setValue(user.name);
+      setValue(`${user.name}${user.id}`);
       onSelect(user);
       await updateTask(taskId, { assigneeId: user.id });
     } else {
@@ -64,7 +64,9 @@ function TaskAssigneeContent({
   }
 
   if (isLoading) {
-    return <div className="px-2 py-1.5 text-base-300"> Loading... </div>;
+    return (
+      <div className="px-3 py-1.5 text-sm text-base-300"> Loading... </div>
+    );
   }
 
   return (
@@ -76,7 +78,7 @@ function TaskAssigneeContent({
           {data?.users?.map((user: Member) => (
             <CommandItem
               key={user.id}
-              value={user.name}
+              value={`${user.name}${user.id}`}
               onSelect={() => {
                 updateOnSelect(user);
               }}
