@@ -1,10 +1,14 @@
+import { fetchProjects } from "@/actions/projects";
 import { ProfileAvatar } from "@/components/profile";
+import ProjectTable from "@/components/site/projects/project-table";
 import TabNavigationItem from "@/components/site/tab-navigation-item";
 import TabsNavigation from "@/components/site/tabs-navigation";
 import { Separator } from "@/components/ui/separator";
-import * as React from "react";
+import { revalidateTag } from "next/cache";
 
-function TaskViewLayout({ children }: { children: React.ReactNode }) {
+export default async function ProjectsViewDefault() {
+  revalidateTag("PROJECT_COLLECTION");
+  const data = await fetchProjects();
   return (
     <div className="flex flex-1 flex-col">
       <div className="pt-3">
@@ -12,14 +16,14 @@ function TaskViewLayout({ children }: { children: React.ReactNode }) {
           {/* Avatar */}
           <ProfileAvatar />
           <div>
-            <h3 className="text-xl">My Tasks</h3>
+            <h3 className="text-xl">Projects</h3>
             {/* navigation tab */}
             <div className="mt-1">
               <TabsNavigation>
-                <TabNavigationItem href="list" basePath="/tasks">
+                <TabNavigationItem href="list" basePath="/projects">
                   List
                 </TabNavigationItem>
-                <TabNavigationItem href="list/232" basePath="/tasks">
+                <TabNavigationItem href="list/232" basePath="/projects">
                   Board
                 </TabNavigationItem>
               </TabsNavigation>
@@ -28,10 +32,7 @@ function TaskViewLayout({ children }: { children: React.ReactNode }) {
         </div>
         <Separator className="-mt-0.5 h-0.5 bg-white/10" />
       </div>
-      {/* Container */}
-      {children}
+      <ProjectTable projects={data?.projects} />;
     </div>
   );
 }
-
-export default TaskViewLayout;

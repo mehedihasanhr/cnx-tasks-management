@@ -3,7 +3,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   IconArrowBarRight,
   IconArrowsDiagonal,
-  IconCalendarMonth,
   IconCheck,
   IconDots,
   IconLink,
@@ -13,29 +12,35 @@ import {
   IconThumbUp,
 } from "@tabler/icons-react";
 
-import { fetchTask } from "@/actions/tasks";
+import dynamic from "next/dynamic";
+
+import { fetchProject } from "@/actions/projects";
+import DueDate from "@/components/site/projects/data-table/due-date";
+import ProjectCloseButton from "@/components/site/projects/project-close-button";
 import SubtaskList from "@/components/site/tasks/subtask-list";
-import TaskCloseButton from "@/components/site/tasks/task-close-button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Task } from "@/types";
-import dayjs from "dayjs";
+import { Project } from "@/types";
+import _ from "lodash";
 import { revalidateTag } from "next/cache";
-import dynamic from "next/dynamic";
 
 const RichEditor = dynamic(() => import("@/components/rich-editor"), {
   ssr: false,
 });
 
-async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
+async function ProjectDetailSidePanel({
+  params,
+}: {
+  params: { projectId: string };
+}) {
   // revalidate on reload
-  revalidateTag("TASK");
+  revalidateTag("PROJECT");
 
-  const data = await fetchTask(params.taskId);
+  const data = await fetchProject(Number(params.projectId));
 
-  if (!data.task) return null;
+  if (!data.project) return null;
 
-  const { task }: { task: Task } = data;
+  const { project }: { project: Project } = data;
 
   return (
     <div className="flex h-screen flex-col">
@@ -94,47 +99,37 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
             <IconDots size={20} />
           </Button>
 
-          <TaskCloseButton
+          <ProjectCloseButton
             variant="ghost"
             size="icon-sm"
             className="hover:text-base-white text-base-300"
           >
             <IconArrowBarRight size={20} />
-          </TaskCloseButton>
+          </ProjectCloseButton>
         </div>
       </div>
 
       <ScrollArea className="flex-1" type="auto">
         <div className="px-8 py-8">
-          <div className="mb-8 text-2xl"> {data.task.title} </div>
+          <div className="mb-8 text-2xl"> {project.title} </div>
           <div className="flex flex-col gap-6">
             {/* Item */}
             <div className="flex items-center gap-4">
-              <div className="w-28 text-xs text-base-300">Assignee</div>
+              <div className="w-28 text-xs text-base-300">Project manager</div>
               <div className="flex-1 text-sm text-base-100">
-                {task.assignee?.name}
+                {project.manager?.name}
               </div>
             </div>
 
             {/* Item */}
             <div className="flex items-center gap-4">
               <div className="w-28 text-xs text-base-300">Due date</div>
-              <div className="flex flex-1 items-center text-sm text-base-100">
-                <IconCalendarMonth size={20} className="mr-2" />
-                {dayjs(task.dueDate).format("MMM DD, YYYY")}
-              </div>
-            </div>
-
-            {/* Item */}
-            <div className="flex items-center gap-4">
-              <div className="w-28 text-xs text-base-300">Project</div>
-              <div className="flex flex-1 items-center text-sm text-base-100">
-                <Badge
-                  variant="secondary"
-                  className="bg-base-300/10 text-base-200 hover:bg-base-300/30"
-                >
-                  {task.project?.title}
-                </Badge>
+              <div className="flex items-center text-sm text-base-100">
+                <DueDate
+                  projectId={project.id}
+                  createdAt={project.createdAt}
+                  dueDate={project.dueDate}
+                />
               </div>
             </div>
 
@@ -162,11 +157,11 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
               <div className="flex flex-1 items-center text-xs text-base-300 hover:cursor-pointer hover:text-base-100">
                 <Badge
                   style={{
-                    color: task?.status?.textColor,
-                    background: task?.status?.bgColor,
+                    color: project?.status?.textColor,
+                    background: project?.status?.bgColor,
                   }}
                 >
-                  {task?.status?.title}
+                  {project?.status?.title}
                 </Badge>
               </div>
             </div>
@@ -185,7 +180,7 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
         <div className="mt-3.5 flex flex-col gap-2.5">
           <div className="w-28 px-8 text-xs text-base-300">Subtasks</div>
           <div className="flex flex-1 flex-col text-xs text-base-300">
-            <SubtaskList taskIds={[task.id, task.id]} />
+            <SubtaskList taskIds={_.map(project.tasks, (task) => task.id)} />
           </div>
           <div className="mt-3 px-8">
             <Button
@@ -194,22 +189,24 @@ async function TaskDetailsPage({ params }: { params: { taskId: string } }) {
               className="h-8 w-fit border-2 border-white/5 px-2.5 pr-3 text-xs font-normal"
             >
               <IconPlus size={15} className="mr-1.5" />
-              <span>Add subtask</span>
+              <span>Add task</span>
             </Button>
           </div>
         </div>
       </ScrollArea>
 
-      {/* Subtask */}
       <Separator className="my-5" />
       <div className="flex flex-col gap-2.5 pb-6">
         <div className="w-28 px-8 text-xs text-base-300">Comment</div>
         <div className="flex flex-1 items-center px-8 text-xs text-base-300 hover:cursor-pointer hover:text-base-100">
-          <RichEditor placeholder="Write a comment" className="min-h-24" />
+          <RichEditor
+            placeholder="Write comment here..."
+            className="min-h-24"
+          />
         </div>
       </div>
     </div>
   );
 }
 
-export default TaskDetailsPage;
+export default ProjectDetailSidePanel;

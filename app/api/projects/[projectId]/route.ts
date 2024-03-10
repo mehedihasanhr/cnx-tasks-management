@@ -2,53 +2,53 @@ import { db } from "@/lib/db";
 
 export async function GET(
   req: Request,
-  { params }: { params: { taskId: string } }
+  { params }: { params: { projectId: string } }
 ) {
   try {
-    const task = await db.task.findFirst({
-      where: { id: Number(params.taskId) },
+    const project = await db.project.findFirst({
+      where: { id: Number(params.projectId) },
       include: {
-        members: {
-          select: {
-            id: true,
-            userId: true,
-            name: true,
-            avatar: true,
-            avatarFallback: true,
-          },
-        },
-        assignee: {
-          select: {
-            id: true,
-            userId: true,
-            name: true,
-            avatar: true,
-            avatarFallback: true,
-          },
-        },
-        taskCreator: {
-          select: {
-            id: true,
-            userId: true,
-            name: true,
-            avatar: true,
-            avatarFallback: true,
-          },
-        },
-        project: { select: { id: true, title: true } },
         status: true,
+        tasks: { select: { id: true } },
+        collaborators: {
+          select: {
+            userId: true,
+            id: true,
+            avatar: true,
+            avatarFallback: true,
+            name: true,
+          },
+        },
+        manager: {
+          select: {
+            userId: true,
+            id: true,
+            avatar: true,
+            avatarFallback: true,
+            name: true,
+          },
+        },
+        createdBy: {
+          select: {
+            userId: true,
+            id: true,
+            avatar: true,
+            avatarFallback: true,
+            name: true,
+          },
+        },
       },
     });
 
-    if (!task) {
+    if (!project) {
       return Response.json(
-        { task: [], message: "Task not found" },
+        { project: [], message: "Project not found" },
         { status: 404 }
       );
     }
 
     return Response.json(
-      { task, message: "Task successfully fetch" },
+      { project, message: "Project successfully fetch" },
       { status: 200 }
     );
   } catch (error) {

@@ -25,9 +25,13 @@ function Navbar() {
             <IconHome />
             Dashboard
           </NavItem>
-          <NavItem href="/tasks">
+          <NavItem href="/tasks/list">
             <IconSubtask />
             My Tasks
+          </NavItem>
+          <NavItem href="/projects">
+            <IconFolder />
+            Projects
           </NavItem>
           <NavItem href="/tasks/invite-member">
             <IconMessage />

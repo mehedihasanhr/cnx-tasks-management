@@ -21,19 +21,23 @@ model UserSession {
 
 // profile 
 model Profile {
-  id             Int       @id @default(autoincrement())
-  name           String
-  avatar         String?
-  avatarFallback String
-  email          String
-  user           User      @relation(fields: [userId], references: [id])
-  userId         Int       @unique
-  tasks          Task[]    @relation("AssigneeRelation")
-  createdTasks   Task[]    @relation("TaskCreatorRelation")
-  projects       Project[]
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @default(now())
-  memberOfTask   Task[]
+  id                   Int       @id @default(autoincrement())
+  name                 String
+  avatar               String?
+  avatarFallback       String
+  email                String
+  user                 User      @relation(fields: [userId], references: [id])
+  userId               Int       @unique
+  tasks                Task[]    @relation("AssigneeRelation")
+  createdTasks         Task[]    @relation("TaskCreatorRelation")
+  createdProjects      Project[] @relation("ProjectCreatorReference")
+  manageProjects       Project[] @relation("ProjectManagerReference")
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @default(now())
+  memberOfTask         Task[]
+  Project              Project?  @relation(fields: [projectId], references: [id])
+  projectId            Int?
+  collaboratedProjects Project[] @relation("Projectcollaborator")
 }
 
 // role
@@ -56,14 +60,6 @@ model User {
   taskId    Int?
 }
 
-// enum Status {
-//   COMPLETE
-//   PENDING
-//   PROGRESSING
-//   OVER_DUE
-//   HOLD
-// }
-
 model Status {
   id        Int       @id @default(autoincrement())
   title     String
@@ -76,17 +72,21 @@ model Status {
 
 // project modal
 model Project {
-  id           Int                @id @default(autoincrement())
-  title        String
-  createdBy    Profile            @relation(fields: [creatorId], references: [userId])
-  creatorId    Int
-  dueDate      DateTime?
-  task         Task[]
-  status       Status             @relation(fields: [statusId], references: [id])
-  statusId     Int                @default(1)
-  dependencies TaskDependencies[]
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @default(now())
+  id            Int                @id @default(autoincrement())
+  title         String
+  createdBy     Profile            @relation(name: "ProjectCreatorReference", fields: [creatorId], references: [userId])
+  creatorId     Int
+  dueDate       DateTime?
+  tasks         Task[]
+  status        Status             @relation(fields: [statusId], references: [id])
+  statusId      Int                @default(1)
+  manager       Profile            @relation(name: "ProjectManagerReference", fields: [managerId], references: [userId])
+  managerId     Int
+  collaborators Profile[]          @relation(name: "Projectcollaborator")
+  dependencies  TaskDependencies[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @default(now())
+  Profile       Profile[]
 }
 
 // task modal

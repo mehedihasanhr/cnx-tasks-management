@@ -7,13 +7,31 @@ export async function GET() {
     const tasks = await db.task.findMany({
       include: {
         members: {
-          select: { id: true, userId: true, name: true, avatar: true },
+          select: {
+            id: true,
+            userId: true,
+            name: true,
+            avatar: true,
+            avatarFallback: true,
+          },
         },
         assignee: {
-          select: { id: true, userId: true, name: true, avatar: true },
+          select: {
+            id: true,
+            userId: true,
+            name: true,
+            avatar: true,
+            avatarFallback: true,
+          },
         },
         taskCreator: {
-          select: { id: true, userId: true, name: true, avatar: true },
+          select: {
+            id: true,
+            userId: true,
+            name: true,
+            avatar: true,
+            avatarFallback: true,
+          },
         },
         project: { select: { id: true, title: true } },
         status: true,

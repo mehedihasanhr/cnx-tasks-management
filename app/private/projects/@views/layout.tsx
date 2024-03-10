@@ -4,7 +4,11 @@ import TabsNavigation from "@/components/site/tabs-navigation";
 import { Separator } from "@/components/ui/separator";
 import * as React from "react";
 
-function TaskViewLayout({ children }: { children: React.ReactNode }) {
+export default function ProjectsViewParallelLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex flex-1 flex-col">
       <div className="pt-3">
@@ -12,14 +16,14 @@ function TaskViewLayout({ children }: { children: React.ReactNode }) {
           {/* Avatar */}
           <ProfileAvatar />
           <div>
-            <h3 className="text-xl">My Tasks</h3>
+            <h3 className="text-xl">Projects</h3>
             {/* navigation tab */}
             <div className="mt-1">
               <TabsNavigation>
-                <TabNavigationItem href="list" basePath="/tasks">
+                <TabNavigationItem href="list" basePath="/projects">
                   List
                 </TabNavigationItem>
-                <TabNavigationItem href="list/232" basePath="/tasks">
+                <TabNavigationItem href="list/232" basePath="/projects">
                   Board
                 </TabNavigationItem>
               </TabsNavigation>
@@ -33,5 +37,3 @@ function TaskViewLayout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-
-export default TaskViewLayout;

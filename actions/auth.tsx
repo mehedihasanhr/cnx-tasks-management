@@ -49,7 +49,6 @@ export async function loginWithEmailPassword(credential: CredentialType) {
     });
 
     const data = await response.json();
-    console.log({ data });
     return data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {

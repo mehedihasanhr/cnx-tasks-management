@@ -6,6 +6,7 @@ export interface Member {
   userId: number;
   name: string;
   avatar?: string;
+  avatarFallback?: string;
 }
 
 export type TaskStatus = {
@@ -21,10 +22,15 @@ export interface Project {
   title: string;
   creatorId: number;
   dueDate: Date;
-  status: string;
+  status?: TaskStatus;
+  statusId: string | number;
+  tasks?: Task[];
   createdAt: Date;
   updatedAt: Date;
   createdBy: Member;
+  managerId: number;
+  manager: Member;
+  collaborators?: Member[];
 }
 
 export interface Task {

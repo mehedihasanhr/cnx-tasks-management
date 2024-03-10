@@ -1,0 +1,102 @@
+2024-03-09 07:40:03 - Neovide panicked with the message 'called `Result::unwrap()` on an `Err` value: Error { kind: Io(Os { code: 24, kind: Uncategorized, message: "Too many open files" }), paths: [] }'. (File: src/settings/config.rs; Line: 137, Column: 14)
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: start_thread
+             at ./nptl/pthread_create.c:442:8
+  12: __GI___clone3
+             at ./misc/../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+
+2024-03-09 07:48:42 - Neovide panicked with the message 'called `Result::unwrap()` on an `Err` value: Error { kind: Io(Os { code: 24, kind: Uncategorized, message: "Too many open files" }), paths: [] }'. (File: src/settings/config.rs; Line: 137, Column: 14)
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: start_thread
+             at ./nptl/pthread_create.c:442:8
+  12: __GI___clone3
+             at ./misc/../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+
+2024-03-09 07:51:16 - Neovide panicked with the message 'called `Result::unwrap()` on an `Err` value: Error { kind: Io(Os { code: 24, kind: Uncategorized, message: "Too many open files" }), paths: [] }'. (File: src/settings/config.rs; Line: 137, Column: 14)
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: start_thread
+             at ./nptl/pthread_create.c:442:8
+  12: __GI___clone3
+             at ./misc/../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+
+2024-03-09 07:51:35 - Neovide panicked with the message 'called `Result::unwrap()` on an `Err` value: Error { kind: Io(Os { code: 24, kind: Uncategorized, message: "Too many open files" }), paths: [] }'. (File: src/settings/config.rs; Line: 137, Column: 14)
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: start_thread
+             at ./nptl/pthread_create.c:442:8
+  12: __GI___clone3
+             at ./misc/../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+
+2024-03-09 07:51:44 - Neovide panicked with the message 'called `Result::unwrap()` on an `Err` value: Error { kind: Io(Os { code: 24, kind: Uncategorized, message: "Too many open files" }), paths: [] }'. (File: src/settings/config.rs; Line: 137, Column: 14)
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: start_thread
+             at ./nptl/pthread_create.c:442:8
+  12: __GI___clone3
+             at ./misc/../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+
+2024-03-09 07:52:17 - Neovide panicked with the message 'called `Result::unwrap()` on an `Err` value: Error { kind: Io(Os { code: 24, kind: Uncategorized, message: "Too many open files" }), paths: [] }'. (File: src/settings/config.rs; Line: 137, Column: 14)
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: start_thread
+             at ./nptl/pthread_create.c:442:8
+  12: __GI___clone3
+             at ./misc/../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+
