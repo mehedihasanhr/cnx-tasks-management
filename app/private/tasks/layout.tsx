@@ -1,5 +1,4 @@
-import { revalidatePath } from "next/cache";
-import React from "react";
+import React, { Suspense } from "react";
 
 function TaskPageLayout({
   children,
@@ -10,12 +9,11 @@ function TaskPageLayout({
   view: React.ReactNode;
   task: React.ReactNode;
 }) {
-  revalidatePath("/tasks", "layout");
   return (
     <>
-      {children}
-      {view}
-      {task}
+      <Suspense fallback={<>Loading...</>}> {children}</Suspense>
+      <Suspense fallback={<>Loading...</>}>{view}</Suspense>
+      <Suspense fallback={<>Loading...</>}>{task}</Suspense>
     </>
   );
 }

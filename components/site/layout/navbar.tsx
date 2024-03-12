@@ -21,15 +21,15 @@ function Navbar() {
 
       <div className="mt-8 flex-1">
         <nav className="flex flex-col gap-1.5 px-2.5">
-          <NavItem href="/dashboard">
+          <NavItem href="/dashboard" parent="dashboard">
             <IconHome />
             Dashboard
           </NavItem>
-          <NavItem href="/tasks/list">
+          <NavItem href="/tasks/list" parent="tasks">
             <IconSubtask />
             My Tasks
           </NavItem>
-          <NavItem href="/projects">
+          <NavItem href="/projects" parent="projects">
             <IconFolder />
             Projects
           </NavItem>

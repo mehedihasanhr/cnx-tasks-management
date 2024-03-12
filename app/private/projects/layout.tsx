@@ -11,9 +11,9 @@ function ProjectsLayout({
 }) {
   return (
     <>
-      {children}
-      {views}
-      {project}
+      <React.Suspense fallback={<>Loading...</>}> {children}</React.Suspense>
+      <React.Suspense fallback={<>Loading...</>}>{views}</React.Suspense>
+      <React.Suspense fallback={<>Loading...</>}>{project}</React.Suspense>
     </>
   );
 }
