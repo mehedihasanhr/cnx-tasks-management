@@ -155,7 +155,6 @@ function WidgetContainer({ children }: { children: React.ReactNode }) {
   const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
     localStorage.setItem("cnx-dashboard-layout", JSON.stringify(allLayouts));
     setLayouts(allLayouts);
-    console.log(allLayouts);
   };
 
   return (
