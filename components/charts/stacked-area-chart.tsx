@@ -1,12 +1,12 @@
-import React from "react";
+import CustomTooltip from "@/components/charts/tooltip";
 import {
-  AreaChart,
   Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 
 const data = [
@@ -63,7 +63,7 @@ export default function StackedAreaChart() {
         data={data}
         margin={{
           top: 10,
-          right: 30,
+          right: 0,
           left: 0,
           bottom: 0,
         }}
@@ -98,7 +98,7 @@ export default function StackedAreaChart() {
             stroke: "rgba(255,255,255,0.1)",
           }}
         />
-        <Tooltip />
+        <Tooltip content={<CustomTooltip />} />
         <Area
           type="monotone"
           dataKey="pv"

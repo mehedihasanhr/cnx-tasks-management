@@ -1,5 +1,6 @@
 "use client";
 
+import CustomTooltip from "@/components/charts/tooltip";
 import {
   Bar,
   BarChart as BarChartComponent,
@@ -88,7 +89,10 @@ export default function BarChart() {
             stroke: "rgba(255,255,255,0.1)",
           }}
         />
-        <Tooltip cursor={{ fill: "rgba(255,255,255,0.03" }} />
+        <Tooltip
+          cursor={{ fill: "rgba(255,255,255,0.03" }}
+          content={<CustomTooltip />}
+        />
         <Bar dataKey="pv" fill="#8884d8" />
         <Bar dataKey="uv" fill="#82ca9d" />
       </BarChartComponent>

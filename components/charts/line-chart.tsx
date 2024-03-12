@@ -1,12 +1,12 @@
-import React from "react";
+import CustomTooltip from "@/components/charts/tooltip";
 import {
-  LineChart as LineChartComponent,
+  CartesianGrid,
   Line,
+  LineChart as LineChartComponent,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 
 const data = [
@@ -82,7 +82,7 @@ export default function LineChart() {
             stroke: "rgba(255,255,255,0.1)",
           }}
         />
-        <Tooltip />
+        <Tooltip content={<CustomTooltip />} />
         <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
         <Line type="monotone" dataKey="uv" stroke="#8822d8" strokeWidth={2} />
       </LineChartComponent>
