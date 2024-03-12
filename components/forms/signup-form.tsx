@@ -103,7 +103,12 @@ function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Email" icon={<Mail />} {...field} />
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  icon={<Mail />}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -138,6 +143,7 @@ function SignUpForm() {
               <FormControl>
                 <Input
                   placeholder="Re-type Password"
+                  type="password"
                   icon={<KeyRound />}
                   {...field}
                 />
