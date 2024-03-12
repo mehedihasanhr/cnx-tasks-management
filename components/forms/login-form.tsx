@@ -34,8 +34,8 @@ function LoginForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "demo@example.com",
+      password: "12345678",
     },
   });
 
