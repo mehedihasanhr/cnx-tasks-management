@@ -9,7 +9,7 @@ function BarChartWidget() {
   return (
     <div className="relative flex h-full min-h-fit flex-col rounded-lg border border-base-0/5 bg-gradient-service-card p-6">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-xl">Project Budget Chart</h3>
+        <h3 className="text-xl">Bar Chart</h3>
         <Button
           onMouseDown={(e) => e.stopPropagation()}
           variant="secondary"

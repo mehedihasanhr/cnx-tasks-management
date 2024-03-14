@@ -1,7 +1,5 @@
-import React from "react";
-
 function PublicLayoutLoading() {
-  return <div>Loading...</div>;
+  return <div>Public Loading...</div>;
 }
 
 export default PublicLayoutLoading;

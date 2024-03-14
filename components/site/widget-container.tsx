@@ -140,16 +140,15 @@ const defaultLayouts = {
 };
 
 function WidgetContainer({ children }: { children: React.ReactNode }) {
-  const [layouts, setLayouts] = React.useState(() => {
-    // get layout form local storage
-    const localLayouts = localStorage.getItem("cnx-dashboard-layout");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [layouts, setLayouts] = React.useState<any>(defaultLayouts);
 
+  React.useEffect(() => {
+    const localLayouts = localStorage.getItem("cnx-dashboard-layout");
     if (localLayouts) {
-      return JSON.parse(localLayouts);
+      setLayouts(JSON.parse(localLayouts));
     }
-    // if  not found return default
-    return defaultLayouts;
-  });
+  }, []);
 
   // on layout change
   const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
@@ -160,7 +159,7 @@ function WidgetContainer({ children }: { children: React.ReactNode }) {
   return (
     <ResponsiveGridLayout
       className="layout"
-      layouts={layouts}
+      layouts={layouts ?? defaultLayouts}
       margin={[32, 32]}
       breakpoints={{ xl: 1200, lg: 992 }}
       cols={{ xl: 12, lg: 12 }}

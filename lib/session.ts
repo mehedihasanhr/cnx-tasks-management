@@ -64,6 +64,7 @@ export async function verifyUserSession(token: string) {
       method: "POST",
       credentials: "include",
       body: JSON.stringify({ token }),
+      cache: "force-cache",
     });
 
     const data = await res.json();

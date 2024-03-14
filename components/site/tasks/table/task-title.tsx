@@ -133,12 +133,7 @@ function TaskTitle({
       {taskId && (
         <div className="invisible group-hover:visible">
           <Button variant="ghost" size="icon-sm" className="h-8 w-8" asChild>
-            <Link
-              href={`/tasks/${taskId}`}
-              scroll={false}
-              prefetch={false}
-              aria-label="open-task"
-            >
+            <Link href={`/tasks/${taskId}`} scroll={false} prefetch={false}>
               <IconChevronRight size={16} />
             </Link>
           </Button>

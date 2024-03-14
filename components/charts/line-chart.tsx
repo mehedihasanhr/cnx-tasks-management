@@ -1,3 +1,5 @@
+"use client";
+
 import CustomTooltip from "@/components/charts/tooltip";
 import {
   CartesianGrid,

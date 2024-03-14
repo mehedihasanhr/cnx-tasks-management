@@ -19,7 +19,7 @@ function TaskViewLayout({ children }: { children: React.ReactNode }) {
                 <TabNavigationItem href="list" basePath="/tasks">
                   List
                 </TabNavigationItem>
-                <TabNavigationItem href="list/232" basePath="/tasks">
+                <TabNavigationItem href="board" basePath="/tasks">
                   Board
                 </TabNavigationItem>
               </TabsNavigation>

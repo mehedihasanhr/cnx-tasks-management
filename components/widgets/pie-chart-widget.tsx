@@ -1,15 +1,15 @@
 "use client";
 
+import PieChart from "@/components/charts/pie-chart";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { IconDotsVertical } from "@tabler/icons-react";
-import PieChart from "@/components/charts/pie-chart";
 
 function PieChartWidget() {
   return (
     <div className="relative flex h-full min-h-fit flex-col rounded-lg border border-base-0/5 bg-gradient-service-card p-6">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-xl">Project Budget Chart</h3>
+        <h3 className="text-xl">Pie Chart</h3>
         <Button
           onMouseDown={(e) => e.stopPropagation()}
           variant="secondary"

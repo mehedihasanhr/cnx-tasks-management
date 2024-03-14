@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyUserSession } from "./lib/session";
 
 // eslint-disable-next-line consistent-return
 export async function middleware(request: NextRequest) {
@@ -8,25 +7,30 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // verified user
-  const verified = sessionToken ? await verifyUserSession(sessionToken) : false;
+  // const verified = sessionToken ? await verifyUserSession(sessionToken) : false;
 
   if (pathname === "/") {
     return NextResponse.redirect(new URL(`/login`, request.url));
   }
 
+  // if upcoming requested page is login or sign-up
   if (["/login", "/sign-up"].includes(pathname)) {
-    if (typeof verified !== "boolean" && verified.status === 200) {
+    // if session token exist redirect to dashboard
+    if (sessionToken) {
       return NextResponse.redirect(new URL(`/dashboard`, request.url));
     }
-  } else if (
-    !verified ||
-    (typeof verified !== "boolean" && verified.status !== 200)
-  ) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  } else if (pathname === "/tasks" || pathname === "/projects") {
-    return NextResponse.redirect(new URL(`${pathname}/list`, request.url));
-  } else
-    return NextResponse.rewrite(new URL(`/private${pathname}`, request.url));
+  } else {
+    // others all requested url if session token not exist redirect to login page
+    if (!sessionToken) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    // modified url request
+    if (pathname === "/projects" || pathname === "/tasks") {
+      return NextResponse.redirect(new URL(`${pathname}/list`, request.url));
+    }
+    // return NextResponse.redirect(new URL(pathname, request.url));
+  }
 }
 
 export const config = {

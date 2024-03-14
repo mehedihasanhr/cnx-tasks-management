@@ -1,10 +1,11 @@
-import React from "react";
+"use client";
+
 import {
-  PieChart as PieChartComponent,
-  Pie,
   Cell,
-  ResponsiveContainer,
   Legend,
+  Pie,
+  PieChart as PieChartComponent,
+  ResponsiveContainer,
 } from "recharts";
 
 const data = [
